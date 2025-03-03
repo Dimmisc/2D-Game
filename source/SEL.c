@@ -1,16 +1,9 @@
-#include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
 
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-
-#include "Area/Area.h"
-#include "sprites/sprite.h"
-#include "effects/effect.h"
 #include "SEL.h"
 
 
@@ -40,31 +33,31 @@ int SEL_init(SEL_Window *ARG, WindowSettings *settings) {
 
 int SEL_Moving_of_Sprites(AreaMap *AREA, int speed) {
     int succes = 1, truth = 0;
-    for (int i=0;i<AREA->sizeflexingsprites;i++) {
-        //truth = InitEventSprite(AREA->flexingsprites[i]); //It will be avalible
+    // for (int i=0;i<AREA->sizeflexingsprites;i++) {
+    //     //truth = InitEventSprite(AREA->flexingsprites[i]); //It will be avalible
 
-        if (truth == 0) {
-            succes = 0;
-            //strncpy(AREA->error, GetSpriteError(), 30); // It will be avalible
-            break;
-        }
-    }
+    //     if (truth == 0) {
+    //         succes = 0;
+    //         //strncpy(AREA->error, GetSpriteError(), 30); // It will be avalible
+    //         break;
+    //     }
+    // }
     return succes;
 }
 
 int UpdateScreen(SEL_Window *ARG) {
     int succes = 1;
     SDL_RenderClear(ARG->render);
-    for (int i=0;i<ARG->lsS; i++) {
-        SDL_RenderCopyEx(ARG->render,
-                         ARG->shownSprites[i]->spriteTexture,
-                         NULL,
-                         &ARG->shownSprites[i]->arguments.parametres,
-                         ARG->shownSprites[i]->arguments.rotation,
-                         &ARG->shownSprites[i]->arguments.center_rotation,
-                         ARG->shownSprites[i]->reflaction
-                         );
-    }
+    // for (int i=0;i<ARG->lsS; i++) {
+    //     SDL_RenderCopyEx(ARG->render,
+    //                      ARG->shownSprites[i]->spriteTexture,
+    //                      NULL,
+    //                      &ARG->shownSprites[i]->arguments.parametres,
+    //                      ARG->shownSprites[i]->arguments.rotation,
+    //                      &ARG->shownSprites[i]->arguments.center_rotation,
+    //                      ARG->shownSprites[i]->reflaction
+    //                      );
+    // }
     SDL_RenderPresent(ARG->render);
     return succes;
 }

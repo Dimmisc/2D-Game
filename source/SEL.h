@@ -2,6 +2,11 @@
 #define _SEL_H_
 
 
+#include "Area/Area.h"
+#include "sprites/sprite.h"
+#include "effects/effect.h"
+
+
 typedef struct SEL_Window {
     SDL_Window *window;
     SDL_Surface *surface;

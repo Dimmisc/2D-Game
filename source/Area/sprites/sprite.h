@@ -11,7 +11,7 @@ typedef struct {
 } Item;
 
 typedef struct {
-    Item **items;
+    Item *items;
     int Litems;
 } Inventory;
 
@@ -27,22 +27,27 @@ typedef struct Sprite {
     parametresSprite arguments;
     SDL_RendererFlip reflaction;
     char name[15];
+    unsigned int type;    
 } Sprite;
 
 typedef struct ThinkSprite {
+    Inventory inventory;
     SDL_Texture *spriteTexture;
     parametresSprite arguments;
     char name[15];
     SDL_RendererFlip reflaction;
     int typemove;
+    unsigned int type;
 } ThinkSprite;
 
 typedef struct InventorySprite {
+    Inventory inventory;
     SDL_Texture *spriteTexture;
     parametresSprite arguments;
     char name[15];
     SDL_RendererFlip reflaction;
     int typemove;
+    unsigned int type;
 } InventorySprite;
 
 #endif

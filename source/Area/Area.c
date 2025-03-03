@@ -3,35 +3,52 @@
 #include <string.h>
 
 #include "Area.h"
-
     
-int Area(unsigned int width, unsigned int height, unsigned int layots) {
+typedef struct {
+    int h;
+    int w;
+}cord;
+
+
+ cord find_cell(int x, int y, AreaMap *Map) {
+    cord arg;
+    arg.h = x / Map->cellsArg.height;
+    arg.w = y / Map->cellsArg.width;
+    return arg;
+ }
+
+
+AreaMap *Load_Area() {
     AreaMap folder;
-    folder.mapheight = height;
-    folder.mapwidth = width;
-    folder.maplayots = layots;
-    //folder.sizeffects = 0;
-    folder.sizesprites = 0;
-    folder.sprites = (sprite*) malloc(sizeof(sprite) * 1);
-    //folder.effects = (effect*) malloc(sizeof(effect) * 1);
     return &folder;
 }
 
-AreaMap *CreateSprite(AreaMap *folder, char name[15], int x, int y, int angle) {
-    if (&folder) {
-        folder->sizesprites++;
-        folder->sprites = realloc(folder->sprites, (sizeof(sprite) * folder->sizesprites));
-        folder->sprites[folder->sizesprites].arguments.parametres.x = x;
-        folder->sprites[folder->sizesprites].arguments.parametres.y = y;
-        folder->sprites[folder->sizesprites].arguments.layot = 1;
-        folder->sprites[folder->sizesprites].arguments.rotation = angle;
-        //folder.sprites[folder->sizesprites].reflaction = {0, 0, 0, 0};
-        strncpy(folder->sprites[folder->sizesprites].name, name, 15);
-        return 1;
-    } else {
-        printf("Error: Not initialisated Map!");
-        return 0;
-    }
+AreaMap *CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsigned int type, double rotation) {
+    cord nsc = find_cell(x, y, Map);
+    Layot *P_to_L = &Map->cells[nsc.w][nsc.h].layots[layot];
+    P_to_L->LenSprites++;
+    P_to_L->sprites = realloc(P_to_L->LenSprites, (sizeof(Sprite) * P_to_L->LenSprites));
+    strncpy(P_to_L->sprites[P_to_L->LenSprites].name, name, 15);
+    P_to_L->sprites[P_to_L->LenSprites].type = type;
+    P_to_L->sprites[P_to_L->LenSprites].arguments.layot = layot;
+    P_to_L->sprites[P_to_L->LenSprites].arguments.parametres.x = x;
+    P_to_L->sprites[P_to_L->LenSprites].arguments.parametres.y = y;
+    P_to_L->sprites[P_to_L->LenSprites].arguments.rotation = rotation;
+    
+    // if (&folder) {
+    //     folder->sizesprites++;
+    //     folder->sprites = realloc(folder->sprites, (sizeof(sprite) * folder->sizesprites));
+    //     folder->sprites[folder->sizesprites].arguments.parametres.x = x;
+    //     folder->sprites[folder->sizesprites].arguments.parametres.y = y;
+    //     folder->sprites[folder->sizesprites].arguments.layot = 1;
+    //     folder->sprites[folder->sizesprites].arguments.rotation = angle;
+    //     //folder.sprites[folder->sizesprites].reflaction = {0, 0, 0, 0};
+    //     strncpy(folder->sprites[folder->sizesprites].name, name, 15);
+    //     return 1;
+    // } else {
+    //     printf("Error: Not initialisated Map!");
+    //     return 0;
+    // }
 }
 
 AreaMap *ChangePositionSprite(AreaMap *folder, char namesprite[15], SDL_Rect *Argchange){

@@ -7,9 +7,11 @@
 
 typedef struct Player {
     char name[15];
+    Inventory inventory;
     SDL_Texture *spriteTexture;
     parametresSprite arguments;
     SDL_RendererFlip reflaction;
+    unsigned int type;
     int SWidth;
     int SHeight;
 } Player;
