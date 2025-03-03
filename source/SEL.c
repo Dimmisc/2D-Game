@@ -31,7 +31,7 @@ int SEL_init(SEL_Window *ARG, WindowSettings *settings) {
     return succes;
 }
 
-int SEL_Moving_of_Sprites(AreaMap *AREA, int speed) {
+int Moving_of_Sprites(AreaMap *AREA, int speed) {
     int succes = 1, truth = 0;
     // for (int i=0;i<AREA->sizeflexingsprites;i++) {
     //     //truth = InitEventSprite(AREA->flexingsprites[i]); //It will be avalible
@@ -44,6 +44,12 @@ int SEL_Moving_of_Sprites(AreaMap *AREA, int speed) {
     // }
     return succes;
 }
+
+
+int Update_shown_sprites(AreaMap *Map){
+    return 1;
+}
+
 
 int UpdateScreen(SEL_Window *ARG) {
     int succes = 1;

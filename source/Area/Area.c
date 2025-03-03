@@ -26,6 +26,7 @@ AreaMap *Load_Area() {
 AreaMap *CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsigned int type, double rotation) {
     cord nsc = find_cell(x, y, Map);
     Layot *P_to_L = &Map->cells[nsc.w][nsc.h].layots[layot];
+    Type *New_Sprite_type = Give_Type(type);
     P_to_L->LenSprites++;
     P_to_L->sprites = realloc(P_to_L->LenSprites, (sizeof(Sprite) * P_to_L->LenSprites));
     strncpy(P_to_L->sprites[P_to_L->LenSprites].name, name, 15);
@@ -50,6 +51,7 @@ AreaMap *CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsi
     //     return 0;
     // }
 }
+
 
 AreaMap *ChangePositionSprite(AreaMap *folder, char namesprite[15], SDL_Rect *Argchange){
     int succes = 0;

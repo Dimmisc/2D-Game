@@ -3,15 +3,14 @@
 
 
 #include "Area/Area.h"
-#include "sprites/sprite.h"
-#include "effects/effect.h"
 
-
+// Needable to Rethink
 typedef struct SEL_Window {
+    Layot layots;
     SDL_Window *window;
     SDL_Surface *surface;
     SDL_Renderer *render;
-    Layot layots;
+    AreaMap *Map;
     Player *player;
     char Error[30];
     int Ll;
@@ -29,7 +28,7 @@ typedef struct WindowSetting {
 
 
 int SEL_init(SEL_Window *ARG, WindowSettings *settings);
-int SEL_Moving_of_Sprites(AreaMap *AREA, int speed);
+int Moving_of_Sprites(AreaMap *AREA, int speed);
 int UpdateScreen(SEL_Window *ARG);
 int SEL_Start(int TPS, SEL_Window *Window);
 int SEL_WQuit(SEL_Window *ARG);

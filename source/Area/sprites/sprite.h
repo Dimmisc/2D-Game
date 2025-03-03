@@ -6,6 +6,20 @@
 
 
 typedef struct {
+    unsigned int type;
+    int width;
+    int height;
+    SDL_RendererFlip reflaction;
+} Type;
+
+
+typedef struct {
+    Type types[4];
+    unsigned int LT;
+} ConstTypes;
+
+
+typedef struct {
     unsigned int item_id;
     unsigned int count;
 } Item;
@@ -49,5 +63,7 @@ typedef struct InventorySprite {
     int typemove;
     unsigned int type;
 } InventorySprite;
+
+Type *Give_Type(unsigned int type);
 
 #endif
