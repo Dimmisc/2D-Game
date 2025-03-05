@@ -33,13 +33,13 @@ int SafeArea(AreaMap *Map){
 }
 
 
-AreaMap *CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsigned int type, double rotation, SDL_Renderer *Render) {
+int CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsigned int type, double rotation, SDL_Renderer *Render) {
     cord nsc = find_cell(x, y, Map);
     Layot *P_to_L = &Map->cells[nsc.x][nsc.y].layots[layot];
     Type *New_Sprite_type = Give_Type(type);
     P_to_L->LenSprites++;
-    Load_Texture(&P_to_L->sprites[P_to_L->LenSprites].spriteTexture, type, Render);
-    P_to_L->sprites = realloc(P_to_L->LenSprites, (sizeof(Sprite) * P_to_L->LenSprites));
+    Load_Texture(&P_to_L->sprites[P_to_L->LenSprites].spriteTexture, New_Sprite_type, Render);
+    P_to_L->sprites = realloc(P_to_L->sprites, (sizeof(Sprite) * P_to_L->LenSprites));
     strncpy(P_to_L->sprites[P_to_L->LenSprites].name, name, 15);
     P_to_L->sprites[P_to_L->LenSprites].type = type;
     P_to_L->sprites[P_to_L->LenSprites].arguments.layot = layot;
@@ -60,7 +60,7 @@ int Load_Texture(SDL_Texture **Place, Type *type, SDL_Renderer *Render){
 }
 
 
-AreaMap *ChangePositionSprite(AreaMap *Map, unsigned int id, SDL_Point Vector) {
+int ChangePositionSprite(AreaMap *Map, unsigned int id, SDL_Point Vector) {
     
     return 1;
 }
@@ -82,7 +82,7 @@ int FreeSprite(Sprite *SPRITE){
 }
 
 
-void CloseArea(AreaMap *Map){
+int CloseArea(AreaMap *Map) {
     for (int i=0; i<Map->cellsArg.massWidth;i++) {
         for (int j=0;j<Map->cellsArg.massHeight;j++) {
             for (int l=0;l<Map->cells[i][j].SizeLayots; l++) {
@@ -95,11 +95,11 @@ void CloseArea(AreaMap *Map){
             free(&Map->cells[i][j]);
         }
     }
-    return 1;
+    return 0;
 }
 
 
-char AreaGetError(AreaMap *folder){
+char *AreaGetError(AreaMap *folder){
     return folder->error;
 }
 

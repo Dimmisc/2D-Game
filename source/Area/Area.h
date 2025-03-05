@@ -38,7 +38,13 @@ typedef struct AreaMap {
 } AreaMap;
 
 
-int *Area(unsigned int inwidth, unsigned int inheight, unsigned int inlayots);
+int CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsigned int type, double rotation, SDL_Renderer *Render);
+int Load_Texture(SDL_Texture **Place, Type *type, SDL_Renderer *Render);
+int ChangePositionSprite(AreaMap *Map, unsigned int id, SDL_Point Vector);
+Sprite *ReturnSprite_BI(AreaMap *Map, unsigned int id);
+int FreeSprite(Sprite *SPRITE);
+int CloseArea(AreaMap *Map);
+char *AreaGetError(AreaMap *folder);
 
 
 #endif

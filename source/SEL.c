@@ -1,39 +1,40 @@
-#define _Are_C_
+#define _SEL_C_
 
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
-#include <cjson/cJSON.h>
-
+#include <SDL_image.h>
 
 #include "SEL.h"
 
 
-int SEL_init(SEL_Window *ARG, WindowSettings *settings) {
+SEL_Window *SEL_init(WindowSettings *settings) {
+    SEL_Window ARG;
     int succes = 0;
-    ARG->window = SDL_CreateWindow(settings->name,
-                                   settings->x,
-                                   settings->y,
-                                   settings->width,
-                                   settings->height,
+    printf("HOHO3\n");
+    ARG.window = SDL_CreateWindow("some",
+                                   SDL_WINDOWPOS_UNDEFINED,
+                                   100,
+                                   1000,
+                                   1000,
                                    SDL_WINDOW_SHOWN
                                    );
-    printf("HOHO");
-    if (ARG->window == NULL) {
-        
+    printf("HOHO4\n");
+    if (ARG.window == NULL) {
         printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
+        return NULL;
     } else {
-        printf("HOHO");
-        ARG->render = SDL_CreateRenderer(ARG->window, -1, SDL_RENDERER_ACCELERATED);
-        if (ARG->render == NULL) {
+        printf("HOHO\n");
+        ARG.render = SDL_CreateRenderer(ARG.window, -1, SDL_RENDERER_ACCELERATED);
+        if (ARG.render == NULL) {
             printf( "Render could not be created! SDL_Error: %s\n", SDL_GetError() );
+            return NULL;
         } else {
-            printf("HOHO");
-            succes = 1;
+            printf("HOHO\n");
         }
     }
-    return succes;
+    return &ARG;
 }
 
 int Moving_of_Sprites(AreaMap *AREA, int speed) {

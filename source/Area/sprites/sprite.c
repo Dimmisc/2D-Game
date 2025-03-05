@@ -13,5 +13,6 @@ Type *Give_Type(unsigned int type) {
             return &TYPESET[i];
         }
     }
-    return 0;
+    Type nnn;
+    return &nnn;
 }
