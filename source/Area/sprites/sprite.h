@@ -9,6 +9,7 @@ typedef struct {
     unsigned int type;
     int width;
     int height;
+    char path[30];
     SDL_RendererFlip reflaction;
 } Type;
 

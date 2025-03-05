@@ -31,11 +31,12 @@ int SafeArea(AreaMap *Map){
 }
 
 
-AreaMap *CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsigned int type, double rotation) {
+AreaMap *CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsigned int type, double rotation, SDL_Renderer *Render) {
     cord nsc = find_cell(x, y, Map);
     Layot *P_to_L = &Map->cells[nsc.w][nsc.h].layots[layot];
     Type *New_Sprite_type = Give_Type(type);
     P_to_L->LenSprites++;
+    Load_Texture(P_to_L->sprites[P_to_L->LenSprites].spriteTexture, type, Render);
     P_to_L->sprites = realloc(P_to_L->LenSprites, (sizeof(Sprite) * P_to_L->LenSprites));
     strncpy(P_to_L->sprites[P_to_L->LenSprites].name, name, 15);
     P_to_L->sprites[P_to_L->LenSprites].type = type;
@@ -62,11 +63,9 @@ AreaMap *CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsi
     // }
 }
 
-
-int Load_Texture(SDL_Texture *Place, char name[15]){
-    SDL_Surface *FSurface;
-    IMG_
-    
+int Load_Texture(SDL_Texture *Place, Type *type, SDL_Renderer *Render){
+    SDL_Surface *FSurface = IMG_Load(type->path);
+    Place = SDL_CreateTextureFromSurface(Render, FSurface);
     return 1;
 }
 
@@ -74,7 +73,7 @@ int Load_Texture(SDL_Texture *Place, char name[15]){
 AreaMap *ChangePositionSprite(AreaMap *folder, char namesprite[15], SDL_Rect *Argchange){
     int succes = 0;
     int i = 0;
-    while (strcmp(folder->sprites[i].name, namesprite) == 0 && i < folder->sizesprites - 1){i++;}
+    while (strcmp(folder->spristes[i].name, namesprite) == 0 && i < folder->sizesprites - 1){i++;}
     if (i == folder->sizesprites) {
         strcpy(folder->error, "No sprite with this name");
         return 0;
