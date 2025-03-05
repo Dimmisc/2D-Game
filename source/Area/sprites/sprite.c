@@ -3,19 +3,14 @@
 #include "sprite.h"
 
 
-ConstTypes TYPESET;
+const Type TYPESET[4];
+int TYPES_COUNT = 4;
 
-
-int Init_Sprites() {
-    
-    TYPESET.LT = 1;
-    return 1;
-}
 
 Type *Give_Type(unsigned int type) {
-    for (int i=0;i<TYPESET.LT; i++) {
-        if (TYPESET.types[i].type == type) {
-            return &TYPESET.types[i];
+    for (int i=0;i<TYPES_COUNT; i++) {
+        if (TYPESET[i].type == type) {
+            return &TYPESET[i];
         }
     }
     return 0;

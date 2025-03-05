@@ -5,6 +5,7 @@
 #include "Area/Area.h"
 
 // Needable to Rethink
+
 typedef struct SEL_Window {
     Layot layots;
     SDL_Window *window;
@@ -24,7 +25,6 @@ typedef struct WindowSetting {
     int y;
     char name[];
 } WindowSettings;
-
 
 
 int SEL_init(SEL_Window *ARG, WindowSettings *settings);

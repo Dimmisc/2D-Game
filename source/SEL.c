@@ -1,3 +1,5 @@
+#define _Are_C_
+
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
@@ -17,14 +19,17 @@ int SEL_init(SEL_Window *ARG, WindowSettings *settings) {
                                    settings->height,
                                    SDL_WINDOW_SHOWN
                                    );
+    printf("HOHO");
     if (ARG->window == NULL) {
         
         printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
     } else {
+        printf("HOHO");
         ARG->render = SDL_CreateRenderer(ARG->window, -1, SDL_RENDERER_ACCELERATED);
         if (ARG->render == NULL) {
             printf( "Render could not be created! SDL_Error: %s\n", SDL_GetError() );
         } else {
+            printf("HOHO");
             succes = 1;
         }
     }
