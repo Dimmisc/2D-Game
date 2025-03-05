@@ -12,5 +12,5 @@ find_package(SDL2_image)
 # find_package(SDL2_ttf)
 
 target_link_libraries(2D-Game SDL2::SDL2)
-target_link_libraries(2D-Game SDL2_image::SDL2_image) #FactoryZoneCE
+target_link_libraries(2D-Game SDL2_image::SDL2_image)
 # target_link_libraries(2D-Game SDL2_ttf::SDL2_ttf)

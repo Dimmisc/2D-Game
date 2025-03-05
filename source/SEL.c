@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
+#include <cjson/cJSON.h>
 
 
 #include "SEL.h"
-
 
 
 int SEL_init(SEL_Window *ARG, WindowSettings *settings) {

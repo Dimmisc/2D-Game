@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <SDL_image.h>
+
 
 #include "Area.h"
     
@@ -23,6 +25,12 @@ AreaMap *Load_Area() {
     return &folder;
 }
 
+
+int SafeArea(AreaMap *Map){
+    return 1;
+}
+
+
 AreaMap *CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsigned int type, double rotation) {
     cord nsc = find_cell(x, y, Map);
     Layot *P_to_L = &Map->cells[nsc.w][nsc.h].layots[layot];
@@ -35,7 +43,9 @@ AreaMap *CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsi
     P_to_L->sprites[P_to_L->LenSprites].arguments.parametres.x = x;
     P_to_L->sprites[P_to_L->LenSprites].arguments.parametres.y = y;
     P_to_L->sprites[P_to_L->LenSprites].arguments.rotation = rotation;
-    
+    P_to_L->sprites[P_to_L->LenSprites].arguments.center_rotation = {1};
+    P_to_L->sprites[P_to_L->LenSprites].reflaction;
+    Sprite n;
     // if (&folder) {
     //     folder->sizesprites++;
     //     folder->sprites = realloc(folder->sprites, (sizeof(sprite) * folder->sizesprites));
@@ -53,9 +63,17 @@ AreaMap *CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsi
 }
 
 
+int Load_Texture(SDL_Texture *Place, char name[15]){
+    SDL_Surface *FSurface;
+    IMG_
+    
+    return 1;
+}
+
+
 AreaMap *ChangePositionSprite(AreaMap *folder, char namesprite[15], SDL_Rect *Argchange){
     int succes = 0;
-    i = 0;
+    int i = 0;
     while (strcmp(folder->sprites[i].name, namesprite) == 0 && i < folder->sizesprites - 1){i++;}
     if (i == folder->sizesprites) {
         strcpy(folder->error, "No sprite with this name");
