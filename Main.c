@@ -12,7 +12,7 @@ int WinMain(int argc, char* argv[]){
     WindowSettings WS;
     WS.height = 1000;
     WS.width = 1500;
-    // strcpy(WS.name,"Start");
+    strcpy(WS.name, "Start");
     WS.x = 0;
     WS.y = 0;
     SEL_init(Window, &WS);

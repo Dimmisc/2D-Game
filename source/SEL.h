@@ -23,7 +23,7 @@ typedef struct WindowSetting {
     int height;
     int x;
     int y;
-    char name[];
+    char name[15];
 } WindowSettings;
 
 

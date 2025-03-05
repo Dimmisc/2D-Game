@@ -14,3 +14,9 @@ find_package(SDL2_image)
 target_link_libraries(2D-Game SDL2::SDL2)
 target_link_libraries(2D-Game SDL2_image::SDL2_image)
 # target_link_libraries(2D-Game SDL2_ttf::SDL2_ttf)
+
+ set(SOURCE 
+     source/SEL.h
+     )
+include_directories(source include)
+# add_executable(2D-Game ${SOURCE})
