@@ -24,7 +24,7 @@ SEL_Window *SEL_init(WindowSettings *settings) {
         printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError());
         return NULL;
     } else {
-        printf("Window is created :\t %s", settings->name);
+        printf("Window is created: %s\n", settings->name);
         ARG.render = SDL_CreateRenderer(ARG.window, -1, SDL_RENDERER_ACCELERATED);
         if (ARG.render == NULL) {
             printf( "Render could not be created! SDL_Error: %s\n", SDL_GetError() );

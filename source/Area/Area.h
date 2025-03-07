@@ -2,7 +2,7 @@
 #define _AreaBox_H_
 
 #include "sprites/sprite.h"
-#include "Player.h"
+#include "Player/Player.h"
 #include "Area.h"
 
 

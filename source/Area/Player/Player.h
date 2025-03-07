@@ -2,7 +2,7 @@
 #define _Player_H_
 
 
-#include "sprites/sprite.h"
+#include "../sprites/sprite.h"
 
 
 typedef struct Player {
