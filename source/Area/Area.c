@@ -10,11 +10,8 @@
     
 typedef Point cord;
 
-/* 
-*   need to do libiration sprite structures
-*/
 
- cord find_cell(int x, int y, AreaMap *Map) {
+cord find_cell(int x, int y, AreaMap *Map) {
     cord arg;
     arg.x = x / Map->cellsArg.height;
     arg.y = y / Map->cellsArg.width;
@@ -38,8 +35,14 @@ int CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsigned 
     Layot *P_to_L = &Map->cells[nsc.x][nsc.y].layots[layot];
     Type *New_Sprite_type = Give_Type(type);
     P_to_L->LenSprites++;
-    Load_Texture(&P_to_L->sprites[P_to_L->LenSprites].spriteTexture, New_Sprite_type, Render);
+
+    if (P_to_L->LenSprites == 1) {
+        P_to_L->sprites = malloc((sizeof(Sprite) * P_to_L->LenSprites));
+    } else {
     P_to_L->sprites = realloc(P_to_L->sprites, (sizeof(Sprite) * P_to_L->LenSprites));
+    }
+
+    Load_Texture(&P_to_L->sprites[P_to_L->LenSprites].spriteTexture, New_Sprite_type, Render);
     strncpy(P_to_L->sprites[P_to_L->LenSprites].name, name, 15);
     P_to_L->sprites[P_to_L->LenSprites].type = type;
     P_to_L->sprites[P_to_L->LenSprites].arguments.layot = layot;
@@ -48,6 +51,7 @@ int CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsigned 
     P_to_L->sprites[P_to_L->LenSprites].arguments.rotation = rotation;
     P_to_L->sprites[P_to_L->LenSprites].arguments.center_rotation = New_Sprite_type->Center;
     P_to_L->sprites[P_to_L->LenSprites].reflaction = New_Sprite_type->reflaction;
+
     return 1;
 }
 
@@ -60,15 +64,15 @@ int Load_Texture(SDL_Texture **Place, Type *type, SDL_Renderer *Render){
 }
 
 
-int ChangePositionSprite(AreaMap *Map, unsigned int id, SDL_Point Vector) {
+int ChangePositionSprite(AreaMap *Map, unsigned int id, int x, int y, SDL_Point Vector) {
     
     return 1;
 }
 
 
-Sprite *ReturnSprite_BI(AreaMap *Map, unsigned int id) { // Returned pointer to Sprite by finding it's id
-    Sprite sprite;
-    return &sprite;
+Sprite *ReturnSprite_BI(AreaMap *Map, unsigned int id, int x, int y) { // Returned pointer to Sprite by finding it's id
+    cord _sprite_cell = find_cell(x, y, Map);
+    return NULL;
 }
 
 

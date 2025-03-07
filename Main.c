@@ -17,6 +17,7 @@ int WinMain(int argc, char* argv[]){
     WS.x = 0;
     WS.y = 0;
     SEL_Window *Window = SEL_init(&WS);
+    
     printf("HOHO2\n");
     printf("Some new!\n");
     char exit[4]="   ";
