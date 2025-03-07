@@ -56,6 +56,7 @@ typedef struct Sprite {
     SDL_Texture *spriteTexture;
     ParametresSprite arguments;
     SDL_RendererFlip reflaction;
+    unsigned long int id;
     unsigned int type;    
 } Sprite;
 

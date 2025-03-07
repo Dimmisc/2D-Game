@@ -28,6 +28,7 @@ typedef struct SEL_Window {
     short int error_continue;
 } SEL_Window;
 
+
 SEL_Window *SEL_init( WindowSettings *settings);
 int Moving_of_Sprites(AreaMap *AREA, int speed);
 int UpdateScreen(SEL_Window *ARG);

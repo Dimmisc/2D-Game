@@ -11,27 +11,26 @@
 
 SEL_Window *SEL_init(WindowSettings *settings) {
     SEL_Window ARG;
+    printf("Start initialization Window: %s\n", settings->name);
     int succes = 0;
-    printf("HOHO3\n");
     ARG.window = SDL_CreateWindow("some",
                                    SDL_WINDOWPOS_UNDEFINED,
-                                   100,
-                                   1000,
-                                   1000,
+                                   SDL_WINDOWPOS_UNDEFINED,
+                                   500,
+                                   500,
                                    SDL_WINDOW_SHOWN
                                    );
-    printf("HOHO4\n");
     if (ARG.window == NULL) {
-        printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
+        printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError());
         return NULL;
     } else {
-        printf("HOHO\n");
+        printf("Window is created :\t %s", settings->name);
         ARG.render = SDL_CreateRenderer(ARG.window, -1, SDL_RENDERER_ACCELERATED);
         if (ARG.render == NULL) {
             printf( "Render could not be created! SDL_Error: %s\n", SDL_GetError() );
             return NULL;
         } else {
-            printf("HOHO\n");
+            printf("Render is created. Window: %s\n", settings->name);
         }
     }
     return &ARG;
@@ -53,6 +52,7 @@ int Moving_of_Sprites(AreaMap *AREA, int speed) {
 
 
 int Update_shown_sprites(AreaMap *Map){
+
     return 1;
 }
 
@@ -83,7 +83,7 @@ int SEL_Start(int TPS, SEL_Window *Window) {
     gettimeofday(&st, 0);
     double started_game_time = (st.tv_sec + (double)st.tv_usec / 100000);
     double cst = (st.tv_sec + (double)st.tv_usec / 100000) + change_coeficent, mt = 0;
-    printf("Game started, time:%lf", started_game_time);
+    printf("Game started, time: %lf, Window: {}", started_game_time);
     while (Exit == 0) {
         gettimeofday(&vt, 0);
         mt = vt.tv_sec + (double)vt.tv_usec / 100000;
@@ -92,6 +92,7 @@ int SEL_Start(int TPS, SEL_Window *Window) {
             cst += change_coeficent;
         }
     }
+    printf("Game ended, Error: %s\n", Window->Error);
     return 1;
 }
 

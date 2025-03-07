@@ -60,28 +60,42 @@ int Load_Texture(SDL_Texture **Place, Type *type, SDL_Renderer *Render){
     SDL_Surface *FSurface = IMG_Load(type->path);
     *Place = SDL_CreateTextureFromSurface(Render, FSurface);
     SDL_FreeSurface(FSurface);
-    return 1;
-}
-
-
-int ChangePositionSprite(AreaMap *Map, unsigned int id, int x, int y, SDL_Point Vector) {
     
     return 1;
 }
 
 
-Sprite *ReturnSprite_BI(AreaMap *Map, unsigned int id, int x, int y) { // Returned pointer to Sprite by finding it's id
+int ChangePositionSprite_BI(AreaMap *Map, unsigned long int id, int x, int y, SDL_Point Vector) {
+    Sprite *CSprite = MSprite_BI(Map, id, x, y);
+                                
+    return 1;
+}
+
+
+Sprite *MSprite_BI(AreaMap *Map, unsigned long int id, int x, int y) { // Returned pointer to Sprite by finding it's id
     cord _sprite_cell = find_cell(x, y, Map);
+    Cell *P_TO_L = &Map->cells[_sprite_cell.x][_sprite_cell.y];
+
+    for (int i = 0; i<P_TO_L->SizeLayots; i++) {
+        for (int j = 0;j<P_TO_L->layots[i].LenSprites; j++) {
+            if (P_TO_L->layots[i].sprites[j].id == id) {
+                return &P_TO_L->layots[i].sprites[j];
+            }
+        }
+    }
+
     return NULL;
 }
 
 
-int FreeSprite(Sprite *SPRITE){
+int FreeSprite(Sprite *SPRITE) 
+{
     SDL_DestroyTexture(SPRITE->spriteTexture);
     for (int i=0;i<SPRITE->collision.count;i++) {
         free(&SPRITE->collision.rectangles);
     }
     free(&SPRITE->collision.rectangles);
+    
     return 1;
 }
 
@@ -99,11 +113,12 @@ int CloseArea(AreaMap *Map) {
             free(&Map->cells[i][j]);
         }
     }
+    
     return 0;
 }
 
 
-char *AreaGetError(AreaMap *folder){
+char *AreaGetError(AreaMap *folder) {
     return folder->error;
 }
 
