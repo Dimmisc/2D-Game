@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "MapLoad.h"
 
 #include "../sprites/sprite.h"
@@ -5,19 +7,20 @@
 #include "../Area.h"
 
 
-int _load_sprite(char *STRING[]) {
-    return 1;
-}
+// int _load_sprite(char *STRING[]) {
+
+//     return 1;
+// }
 
 
-int _load_player(char *STRING[]) {
-    return 1;
-}
+// int _load_player(char *STRING[]) {
+//     return 1;
+// }
 
 
-int _load_Map(char *Map_Name[]) {
-    return 1;
-}
+// int _load_Map(char *Map_Name[]) {
+//     return 1;
+// }
 
 
 int _save_sprite(Sprite *SPRITE){
@@ -30,7 +33,21 @@ int _save_player(Player *PLAYER){
 }
 
 
-int _save_Map(AreaMap *MAP){
+int SaveMap(AreaMap *MAP){
+    char Map_File[10] = strcat(MAP->name, ".txt");
+    FILE *Map_File = fopen(Map_File, "w");
+    char Map_File[1000];
+
+
+
+
+    
+    char ns[10];
+    snprintf(ns, sizeof ns, "%d", MAP->cellsArg.layots);
+    strcat(Map_File, strcat(strcat(strcat("M:", MAP->name), ";"), ns));
+
+
+    fclose(Map_File);
     return 1;
 }
 

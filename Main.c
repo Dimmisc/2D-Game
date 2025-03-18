@@ -15,7 +15,8 @@ int WinMain(int argc, char* argv[]){
     strcpy(WS.name, "Start");
     WS.x = 0;
     WS.y = 0;
-    SEL_Window *Window = SEL_init(&WS);  
+    SEL_Window *Window = SEL_init(&WS);
+    printf("%d\t%d\n", sizeof(Player), sizeof(AreaMap));
     SEL_Exit();
     return 0;
 }

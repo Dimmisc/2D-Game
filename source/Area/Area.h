@@ -23,14 +23,16 @@ typedef struct CellSettings {
     int width;
     int massHeight;
     int massWidth;
+    int layots;
 } CellSettings;
 
 
 typedef struct AreaMap {
     char error[30];
-    Cell **cells;
     CellSettings cellsArg;
     Player player;
+    char name[15];
+    Cell **cells;
     int mapwidth;
     int mapheight;
     //effect* effects;
