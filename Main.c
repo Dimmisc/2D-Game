@@ -16,7 +16,7 @@ int WinMain(int argc, char* argv[]){
     WS.x = 0;
     WS.y = 0;
     SEL_Window *Window = SEL_init(&WS);
-    printf("%d\t%d\n", sizeof(Player), sizeof(AreaMap));
+    printf("%d\t%d\n", sizeof(Sprite), sizeof(ParametresSprite));
     SEL_Exit();
     return 0;
 }

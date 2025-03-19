@@ -5,10 +5,45 @@
 #include <SDL.h>
 #include <stdint.h>
 
-typedef struct SDL_Point Point;
+typedef SDL_Point Point;
 
 typedef struct {
-    char path[30];
+    SDL_RendererFlip reflaction;
+    SDL_Rect parametres;
+    double rotation;
+    uint8_t layot;
+} ParametresSprite;
+
+typedef struct Rectangle {
+    SDL_Point TLPoint;
+    SDL_Point BRPoint;
+} Rectangle;
+
+typedef struct Collision {
+    Rectangle *rectangles;
+    int16_t SRect;
+} Collision;
+
+
+typedef struct type{
+    uint16_t id;
+    Collision TypeCollision;
+    SDL_Point CenterOffset;
+    SDL_Texture *STexture;
+} type;
+
+
+typedef struct Sprite {
+    char name[15];
+    ParametresSprite arguments;
+    type *typeSet;
+    uint32_t id;   
+} Sprite;   
+
+
+
+typedef struct {
+    char path[100];
     unsigned int type;
     int width;
     int height;
@@ -17,18 +52,6 @@ typedef struct {
 } Type;
 
 
-typedef struct Rectangle {
-    int U_x;
-    int U_y;
-    int D_x;
-    int D_y;
-} Rectangle;
-
-
-typedef struct Collision {
-    Rectangle *rectangles;
-    int count;
-} Collision;
 
 typedef struct {
     unsigned int item_id;
@@ -42,23 +65,17 @@ typedef struct {
 } Inventory;
 
 
-typedef struct {
-    SDL_Rect parametres;
-    double rotation;
-    SDL_Point center_rotation;
-    unsigned short int layot;
-} ParametresSprite;
 
 
-typedef struct Sprite {
-    char name[15];
-    Collision collision;
-    SDL_Texture *spriteTexture;
-    ParametresSprite arguments;
-    SDL_RendererFlip reflaction;
-    unsigned int id;
-    unsigned int type;    
-} Sprite;
+
+// typedef struct Sprite {
+//     char name[15];
+//     Collision collision;
+//     ParametresSprite arguments;
+//     SDL_RendererFlip reflaction;
+//     unsigned int id;
+//     unsigned int type;    
+// } Sprite;
 
 
 typedef struct ThinkSprite {

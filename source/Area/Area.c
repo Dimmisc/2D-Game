@@ -41,16 +41,14 @@ int CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsigned 
     } else {
     P_to_L->sprites = realloc(P_to_L->sprites, (sizeof(Sprite) * P_to_L->LenSprites));
     }
-
-    Load_Texture(&P_to_L->sprites[P_to_L->LenSprites].spriteTexture, New_Sprite_type, Render);
+    Load_Texture(&P_to_L->sprites[P_to_L->LenSprites].typeSet->STexture, New_Sprite_type, Render);
     strncpy(P_to_L->sprites[P_to_L->LenSprites].name, name, 15);
-    P_to_L->sprites[P_to_L->LenSprites].type = type;
     P_to_L->sprites[P_to_L->LenSprites].arguments.layot = layot;
     P_to_L->sprites[P_to_L->LenSprites].arguments.parametres.x = x;
     P_to_L->sprites[P_to_L->LenSprites].arguments.parametres.y = y;
     P_to_L->sprites[P_to_L->LenSprites].arguments.rotation = rotation;
-    P_to_L->sprites[P_to_L->LenSprites].arguments.center_rotation = New_Sprite_type->Center;
-    P_to_L->sprites[P_to_L->LenSprites].reflaction = New_Sprite_type->reflaction;
+    P_to_L->sprites[P_to_L->LenSprites].typeSet->CenterOffset = New_Sprite_type->Center;
+    P_to_L->sprites[P_to_L->LenSprites].arguments.reflaction = New_Sprite_type->reflaction;
 
     return 1;
 }
@@ -88,24 +86,11 @@ Sprite *MSprite_BI(AreaMap *Map, unsigned long int id, int x, int y) { // Return
 }
 
 
-int FreeSprite(Sprite *SPRITE) 
-{
-    SDL_DestroyTexture(SPRITE->spriteTexture);
-    for (int i=0;i<SPRITE->collision.count;i++) {
-        free(&SPRITE->collision.rectangles);
-    }
-    free(&SPRITE->collision.rectangles);
-    
-    return 1;
-}
-
-
 int CloseArea(AreaMap *Map) {
     for (int i=0; i<Map->cellsArg.massWidth;i++) {
         for (int j=0;j<Map->cellsArg.massHeight;j++) {
             for (int l=0;l<Map->cells[i][j].SizeLayots; l++) {
                 for (int s=0;s<Map->cells[i][j].layots[l].LenSprites; s++) {
-                    FreeSprite(&Map->cells[i][j].layots[l].sprites[s]);
                     free(&Map->cells[i][j].layots[l].sprites[s]);
                 }
                 free(&Map->cells[i][j].layots[l]);
