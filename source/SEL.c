@@ -72,7 +72,7 @@ int UpdateScreen(SEL_Window *ARG) {
     for (int layot = 0; layot < _Len_layot; layot++) {
         if (_PlayerLayot == layot) {
             SDL_Rect Prect = {Hh, Hw, 0, 0};
-            SDL_Point PCenterR = {Hh, Hw};
+            SDL_Point PCenterR = {Hh + (_PlayerP->SHeight / 2), Hw + (_PlayerP->SWidth / 2)};
             SDL_RenderCopyEx(ARG->render,
                              _PlayerP->texture, 
                              NULL, 
@@ -91,12 +91,14 @@ int UpdateScreen(SEL_Window *ARG) {
                 for (int sprite = 0; sprite < ARG->Map->cells[sW][sH].layots[layot].LenSprites;sprite++) {
 
                     Sprite *P_TO_S = &ARG->Map->cells[sW][sH].layots[layot].sprites[sprite];
-                    SDL_Rect Srect = {ARG->WindowSettings.height / 2, ARG->WindowSettings.width/2, 0, 0};
-                    SDL_Point SCenterR = {ARG->WindowSettings.height / 2, ARG->WindowSettings.width/2};
+                    SDL_Rect Srect = {P_TO_S->arguments.pah.x - _PlayerP->arguments.pah.x + Hw,
+                                      P_TO_S->arguments.pah.y - _PlayerP->arguments.pah.y + Hh, 0, 0};
+                    SDL_Point SCenterR = {P_TO_S->arguments.pah.x - _PlayerP->arguments.pah.x + Hw, 
+                                          P_TO_S->arguments.pah.y - _PlayerP->arguments.pah.y + Hh};
 
                     
-                    if (NULL){
-                        SDL_RenderCopyEx(ARG->render,
+                    if (Srect.x < ARG->WindowSettings.width & Srect.x > 0 & Srect.y < ARG->WindowSettings.height & Srect.y > 0){
+                        int true = SDL_RenderCopyEx(ARG->render,
                                         P_TO_S->typeSet->STexture,
                                         NULL,
                                         &Srect,
@@ -104,6 +106,10 @@ int UpdateScreen(SEL_Window *ARG) {
                                         &SCenterR,
                                         P_TO_S->arguments.reflaction
                                         );
+                        if (!true) {
+                            printf("Error of showing sprite: %s, %d, %d, %d, %d;\n SDL Error: %s",
+                                   P_TO_S->name, Srect.x, Srect.y, SCenterR.x, SCenterR.y, SDL_GetError());
+                        }
                     }
                 }
             }
