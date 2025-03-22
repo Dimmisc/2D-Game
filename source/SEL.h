@@ -15,17 +15,19 @@ typedef struct WindowSetting {
     int y;
     char name[15];
 } WindowSettings;
-
+typedef struct SWS {
+    int height;
+    int width;
+} SWS;
 typedef struct SEL_Window {
     Layot layots;
+    char Error[30];
     SDL_Window *window;
     SDL_Surface *surface;
     SDL_Renderer *render;
+    SWS WindowSettings;
     AreaMap *Map;
-    Player *player;
-    char Error[30];
-    int Ll;
-    short int error_continue;
+    uint8_t ErrorContinue;
 } SEL_Window;
 
 

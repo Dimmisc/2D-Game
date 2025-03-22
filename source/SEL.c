@@ -4,9 +4,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
-#include <SDL_image.h>
+#include <SDL2/SDL_image.h>
 
 #include "SEL.h"
+
+
 
 
 SEL_Window *SEL_init(WindowSettings *settings) {
@@ -52,7 +54,7 @@ int Moving_of_Sprites(AreaMap *AREA, int speed) {
 
 
 int Update_shown_sprites(AreaMap *Map){
-
+    
     return 1;
 }
 
@@ -60,22 +62,59 @@ int Update_shown_sprites(AreaMap *Map){
 int UpdateScreen(SEL_Window *ARG) {
     int succes = 1;
     SDL_RenderClear(ARG->render);
-    // for (int i=0;i<ARG->lsS; i++) {
-    //     SDL_RenderCopyEx(ARG->render,
-    //                      ARG->shownSprites[i]->spriteTexture,
-    //                      NULL,
-    //                      &ARG->shownSprites[i]->arguments.parametres,
-    //                      ARG->shownSprites[i]->arguments.rotation,
-    //                      &ARG->shownSprites[i]->arguments.center_rotation,
-    //                      ARG->shownSprites[i]->reflaction
-    //                      );
-    // }
+
+    uint8_t _PlayerLayot = ARG->Map->player.layot;
+    uint8_t _Len_layot = ARG->Map->cellsArg.layots;
+    Player * _PlayerP = &ARG->Map->player;
+
+    int _Px = _PlayerP->arguments.pah.x, _Py = _PlayerP->arguments.pah.y;
+    int Hw = ARG->WindowSettings.width / 2, Hh = ARG->WindowSettings.height / 2;
+    for (int layot = 0; layot < _Len_layot; layot++) {
+        if (_PlayerLayot == layot) {
+            SDL_Rect Prect = {Hh, Hw, 0, 0};
+            SDL_Point PCenterR = {Hh, Hw};
+            SDL_RenderCopyEx(ARG->render,
+                             _PlayerP->texture, 
+                             NULL, 
+                             &Prect, 
+                             _PlayerP->arguments.rotation, 
+                             &PCenterR,
+                             _PlayerP->arguments.reflaction);
+        }
+
+        int CBNW = (int)ceil(((float)_Px + Hw) / ARG->Map->cellsArg.width), 
+        CBNH = (int)ceil(((float)_Py + Hh) /ARG->Map->cellsArg.height);
+
+
+        for (int sW = (_Px - Hw) / ARG->Map->cellsArg.width; sW < CBNW; sW++){
+            for (int sH = (_Py - Hh) / ARG->Map->cellsArg.height; sH < CBNH; sH++) {
+                for (int sprite = 0; sprite < ARG->Map->cells[sW][sH].layots[layot].LenSprites;sprite++) {
+
+                    Sprite *P_TO_S = &ARG->Map->cells[sW][sH].layots[layot].sprites[sprite];
+                    SDL_Rect Srect = {ARG->WindowSettings.height / 2, ARG->WindowSettings.width/2, 0, 0};
+                    SDL_Point SCenterR = {ARG->WindowSettings.height / 2, ARG->WindowSettings.width/2};
+
+                    
+                    if (NULL){
+                        SDL_RenderCopyEx(ARG->render,
+                                        P_TO_S->typeSet->STexture,
+                                        NULL,
+                                        &Srect,
+                                        P_TO_S->arguments.rotation,
+                                        &SCenterR,
+                                        P_TO_S->arguments.reflaction
+                                        );
+                    }
+                }
+            }
+        }
+    }
     SDL_RenderPresent(ARG->render);
     return succes;
 }
 
 
-/* Function of starting playing your own game*/
+/* Function of starting playing your own game  */
 int SEL_Start(int TPS, SEL_Window *Window) {
     struct timeval st, vt;
     int Exit = 0;

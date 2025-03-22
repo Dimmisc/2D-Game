@@ -2,14 +2,14 @@
 #define _Sprite_H_
 
 #include <stdlib.h>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <stdint.h>
 
 typedef SDL_Point Point;
 
 typedef struct {
     SDL_RendererFlip reflaction;
-    SDL_Rect parametres;
+    SDL_Rect pah;
     double rotation;
     uint8_t layot;
 } ParametresSprite;

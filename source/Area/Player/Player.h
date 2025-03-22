@@ -8,12 +8,13 @@
 typedef struct Player {
     char name[15];
     Inventory inventory;
-    SDL_Texture *spriteTexture;
+    SDL_Texture *texture;
     ParametresSprite arguments;
-    SDL_RendererFlip reflaction;
-    unsigned int type;
+    SDL_Point CenterR;
     int SWidth;
     int SHeight;
+    uint8_t type;
+    uint8_t layot;
 } Player;
 
 

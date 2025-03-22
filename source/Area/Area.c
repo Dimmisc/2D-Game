@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <SDL_image.h>
+#include <SDL2/SDL_image.h>
 
 
 #include "Area.h"
@@ -44,8 +44,8 @@ int CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsigned 
     Load_Texture(&P_to_L->sprites[P_to_L->LenSprites].typeSet->STexture, New_Sprite_type, Render);
     strncpy(P_to_L->sprites[P_to_L->LenSprites].name, name, 15);
     P_to_L->sprites[P_to_L->LenSprites].arguments.layot = layot;
-    P_to_L->sprites[P_to_L->LenSprites].arguments.parametres.x = x;
-    P_to_L->sprites[P_to_L->LenSprites].arguments.parametres.y = y;
+    P_to_L->sprites[P_to_L->LenSprites].arguments.pah.x = x;
+    P_to_L->sprites[P_to_L->LenSprites].arguments.pah.y = y;
     P_to_L->sprites[P_to_L->LenSprites].arguments.rotation = rotation;
     P_to_L->sprites[P_to_L->LenSprites].typeSet->CenterOffset = New_Sprite_type->Center;
     P_to_L->sprites[P_to_L->LenSprites].arguments.reflaction = New_Sprite_type->reflaction;
