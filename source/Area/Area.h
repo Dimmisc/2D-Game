@@ -41,7 +41,7 @@ typedef struct AreaMap {
 
 
 int CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsigned int type, double rotation, SDL_Renderer *Render);
-int Load_Texture(SDL_Texture **Place, Type *type, SDL_Renderer *Render);
+int _loadTexture(SDL_Texture **Place, char path[], SDL_Renderer *Render);
 int ChangePositionSprite_BI(AreaMap *Map, unsigned long int id, int x, int y, SDL_Point Vector);
 Sprite *MSprite_BI(AreaMap *Map, unsigned long int id, int x, int y);
 int CloseArea(AreaMap *Map);

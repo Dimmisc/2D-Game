@@ -41,7 +41,7 @@ int CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsigned 
     } else {
     P_to_L->sprites = realloc(P_to_L->sprites, (sizeof(Sprite) * P_to_L->LenSprites));
     }
-    Load_Texture(&P_to_L->sprites[P_to_L->LenSprites].typeSet->STexture, New_Sprite_type, Render);
+    _loadTexture(&P_to_L->sprites[P_to_L->LenSprites].typeSet->STexture, New_Sprite_type->path, Render);
     strncpy(P_to_L->sprites[P_to_L->LenSprites].name, name, 15);
     P_to_L->sprites[P_to_L->LenSprites].arguments.layot = layot;
     P_to_L->sprites[P_to_L->LenSprites].arguments.pah.x = x;
@@ -54,8 +54,8 @@ int CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsigned 
 }
 
 
-int Load_Texture(SDL_Texture **Place, Type *type, SDL_Renderer *Render){
-    SDL_Surface *FSurface = IMG_Load(type->path);
+int _loadTexture(SDL_Texture **Place, char path[], SDL_Renderer *Render){
+    SDL_Surface *FSurface = IMG_Load(path);
     *Place = SDL_CreateTextureFromSurface(Render, FSurface);
     SDL_FreeSurface(FSurface);
     

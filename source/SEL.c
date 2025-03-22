@@ -10,16 +10,15 @@
 
 
 
-
 SEL_Window *SEL_init(WindowSettings *settings) {
     SEL_Window ARG;
     printf("Start initialization Window: %s\n", settings->name);
     int succes = 0;
-    ARG.window = SDL_CreateWindow("some",
-                                   SDL_WINDOWPOS_UNDEFINED,
-                                   SDL_WINDOWPOS_UNDEFINED,
-                                   500,
-                                   500,
+    ARG.window = SDL_CreateWindow(settings->name,
+                                   settings->x,
+                                   settings->y,
+                                   settings->width,
+                                   settings->height,
                                    SDL_WINDOW_SHOWN
                                    );
     if (ARG.window == NULL) {
@@ -60,13 +59,17 @@ int Update_shown_sprites(AreaMap *Map){
 
 
 int UpdateScreen(SEL_Window *ARG) {
+    static int screenupdate = 0;
     int succes = 1;
-    SDL_RenderClear(ARG->render);
-
+    if (screenupdate > 0){
+        SDL_RenderClear(ARG->render);
+    }
+    printf("%d screen update\n", ++screenupdate);
     uint8_t _PlayerLayot = ARG->Map->player.layot;
     uint8_t _Len_layot = ARG->Map->cellsArg.layots;
     Player * _PlayerP = &ARG->Map->player;
 
+    printf("%d screen update\n", ++screenupdate);
     int _Px = _PlayerP->arguments.pah.x, _Py = _PlayerP->arguments.pah.y;
     int Hw = ARG->WindowSettings.width / 2, Hh = ARG->WindowSettings.height / 2;
     for (int layot = 0; layot < _Len_layot; layot++) {
@@ -128,7 +131,9 @@ int SEL_Start(int TPS, SEL_Window *Window) {
     gettimeofday(&st, 0);
     double started_game_time = (st.tv_sec + (double)st.tv_usec / 100000);
     double cst = (st.tv_sec + (double)st.tv_usec / 100000) + change_coeficent, mt = 0;
-    printf("Game started, time: %lf, Window: {}", started_game_time);
+
+    printf("Game started, time: %lf, Window: {}\n", started_game_time);
+
     while (Exit == 0) {
         gettimeofday(&vt, 0);
         mt = vt.tv_sec + (double)vt.tv_usec / 100000;

@@ -4,16 +4,19 @@
 
 #include "../sprites/sprite.h"
 
+typedef struct PlayerType {
+    SDL_Texture *playerTexture;
+    
+    uint8_t type;
+} PlayerType;
+
+
 
 typedef struct Player {
     char name[15];
     Inventory inventory;
-    SDL_Texture *texture;
     ParametresSprite arguments;
-    SDL_Point CenterR;
-    int SWidth;
-    int SHeight;
-    uint8_t type;
+    PlayerType *TypeSet;
     uint8_t layot;
 } Player;
 
