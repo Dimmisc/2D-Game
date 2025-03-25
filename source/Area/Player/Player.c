@@ -5,12 +5,15 @@
 #include "../Area.h"
 
 
+
 PlayerType Types[2] = {{}, {}};
 int ST = 2;
 
-int _InitPlayers(SDL_Renderer *render, ){
+int _InitPlayers(SDL_Renderer *render) {
     SDL_Surface *FSurface = NULL;
-    for (int i = 0;i<ST;  )
+    for (int i = 0;i<ST;i++){
+
+    }
     Types[0].type = 0;
     Types[0].playerTexture = _loadTexture();
 

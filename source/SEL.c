@@ -5,6 +5,8 @@
 #include <string.h>
 #include <sys/time.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_timer.h>
+
 
 #include "SEL.h"
 
@@ -52,12 +54,6 @@ int Moving_of_Sprites(AreaMap *AREA, int speed) {
 }
 
 
-int Update_shown_sprites(AreaMap *Map){
-    
-    return 1;
-}
-
-
 int UpdateScreen(SEL_Window *ARG) {
     static int screenupdate = 0;
     int succes = 1;
@@ -69,7 +65,7 @@ int UpdateScreen(SEL_Window *ARG) {
     uint8_t _Len_layot = ARG->Map->cellsArg.layots;
     Player * _PlayerP = &ARG->Map->player;
 
-    printf("%d screen update\n", ++screenupdate);
+    printf("%d screen update\n", screenupdate++);
     int _Px = _PlayerP->arguments.pah.x, _Py = _PlayerP->arguments.pah.y;
     int Hw = ARG->WindowSettings.width / 2, Hh = ARG->WindowSettings.height / 2;
     for (int layot = 0; layot < _Len_layot; layot++) {

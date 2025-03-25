@@ -19,6 +19,8 @@ typedef struct SWS {
     int height;
     int width;
 } SWS;
+
+
 typedef struct SEL_Window {
     Layot layots;
     char Error[30];
