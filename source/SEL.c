@@ -6,7 +6,7 @@
 #include <sys/time.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_timer.h>
-
+#define STARTPLAYER 0U
 
 #include "SEL.h"
 
@@ -71,9 +71,9 @@ int UpdateScreen(SEL_Window *ARG) {
     for (int layot = 0; layot < _Len_layot; layot++) {
         if (_PlayerLayot == layot) {
             SDL_Rect Prect = {Hh, Hw, 0, 0};
-            SDL_Point PCenterR = {Hh + (_PlayerP->SHeight / 2), Hw + (_PlayerP->SWidth / 2)};
+            SDL_Point PCenterR = {Hh + (_PlayerP->TypeSet->height / 2), Hw + (_PlayerP->TypeSet->width / 2)};
             SDL_RenderCopyEx(ARG->render,
-                             _PlayerP->texture, 
+                             _PlayerP->TypeSet->playerTexture, 
                              NULL, 
                              &Prect, 
                              _PlayerP->arguments.rotation, 

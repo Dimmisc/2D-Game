@@ -6,8 +6,10 @@
 
 typedef struct PlayerType {
     SDL_Texture *playerTexture;
-    
-    uint8_t type;
+    int width;
+    int height;
+    SDL_Point PointOffset;
+    unsigned int type;
 } PlayerType;
 
 
@@ -20,6 +22,9 @@ typedef struct Player {
     uint8_t layot;
 } Player;
 
+int InitPlayers(SDL_Renderer *RENDER, SDL_Surface *SURFACE);
+int _loadPlayer(unsigned int Type, Player PLAYER);
+void QPlayers();
 
 
 #endif

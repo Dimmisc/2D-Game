@@ -9,6 +9,15 @@
 #include "Area.h"
     
 typedef Point cord;
+int _MapInit(){
+    return 0;
+}
+
+
+AreaMap *_InitMap(const char *NAME){
+    static AreaMap Map = {};
+    
+};
 
 
 cord find_cell(int x, int y, AreaMap *Map) {

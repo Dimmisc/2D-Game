@@ -66,18 +66,6 @@ typedef struct {
 
 
 
-
-
-// typedef struct Sprite {
-//     char name[15];
-//     Collision collision;
-//     ParametresSprite arguments;
-//     SDL_RendererFlip reflaction;
-//     unsigned int id;
-//     unsigned int type;    
-// } Sprite;
-
-
 typedef struct ThinkSprite {
     char name[15];
     Inventory inventory;
