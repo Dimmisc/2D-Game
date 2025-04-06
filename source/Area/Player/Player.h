@@ -23,7 +23,7 @@ typedef struct Player {
 } Player;
 
 int InitPlayers(SDL_Renderer *RENDER, SDL_Surface *SURFACE);
-int _loadPlayer(unsigned int Type, Player PLAYER);
+PlayerType *_loadPlayerType(unsigned int Type);
 void QPlayers();
 
 

@@ -36,6 +36,7 @@ SEL_Window *SEL_init(WindowSettings *settings) {
             printf("Render is created. Window: %s\n", settings->name);
         }
     }
+    _InitMap("TestMap", &ARG);
     return &ARG;
 }
 

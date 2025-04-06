@@ -4,11 +4,13 @@
 #include "sprites/sprite.h"
 #include "Player/Player.h"
 #include "Area.h"
+#include "../SEL.h"
 
 
 typedef struct Layot {
     Sprite *sprites;
     int LenSprites;
+    uint8_t height;
 } Layot;
 
 
@@ -46,6 +48,7 @@ int ChangePositionSprite_BI(AreaMap *Map, unsigned long int id, int x, int y, SD
 Sprite *MSprite_BI(AreaMap *Map, unsigned long int id, int x, int y);
 int CloseArea(AreaMap *Map);
 char *AreaGetError(AreaMap *folder);
+int _InitMap(const char *NAME, const SEL_Window * WINDOW);
 
 
 #endif

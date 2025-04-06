@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <stdint.h>
 
 typedef SDL_Point Point;
@@ -26,9 +27,11 @@ typedef struct Collision {
 
 
 typedef struct type{
-    uint16_t id;
+    uint16_t type;
     Collision TypeCollision;
     SDL_Point CenterOffset;
+    int height;
+    int width;
     SDL_Texture *STexture;
 } type;
 
@@ -39,17 +42,6 @@ typedef struct Sprite {
     type *typeSet;
     uint32_t id;   
 } Sprite;   
-
-
-
-typedef struct {
-    char path[100];
-    unsigned int type;
-    int width;
-    int height;
-    SDL_Point Center;
-    SDL_RendererFlip reflaction;
-} Type;
 
 
 
@@ -87,7 +79,7 @@ typedef struct InventorySprite {
     unsigned int type;
 } InventorySprite;
 
-
-Type *Give_Type(unsigned int type);
+int InitSprites(SDL_Renderer *RENDER, SDL_Surface *SURFACE);
+type *_loadSpriteType(unsigned int Type);
 
 #endif

@@ -20,9 +20,7 @@ typedef struct SWS {
     int width;
 } SWS;
 
-
 typedef struct SEL_Window {
-    Layot layots;
     char Error[30];
     SDL_Window *window;
     SDL_Surface *surface;
@@ -31,6 +29,7 @@ typedef struct SEL_Window {
     AreaMap *Map;
     uint8_t ErrorContinue;
 } SEL_Window;
+
 
 
 SEL_Window *SEL_init( WindowSettings *settings);

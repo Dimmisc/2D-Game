@@ -1,11 +1,14 @@
 cmake_minimum_required(VERSION 3.30)
 project(2D-Game)
 
-find_package(SDL2 REQUIRED)
+
+
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(2D-Game Main.c source/SEL.c source/Area/Area.c source/Area/Player/Player.c source/Area/sprites/sprite.c )
+add_executable(2D-Game Main.c source/SEL.c source/Area/Area.c source/Area/Player/Player.c source/Area/sprites/sprite.c source/Area/map/MapLoad.c)
+
+
 
 find_package(SDL2)
 find_package(SDL2_image)

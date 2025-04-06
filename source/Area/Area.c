@@ -14,9 +14,11 @@ int _MapInit(){
 }
 
 
-AreaMap *_InitMap(const char *NAME){
-    static AreaMap Map = {};
-    
+int _InitMap(const char *NAME, const SEL_Window * WINDOW) {
+    AreaMap *Map = calloc(1, sizeof(AreaMap));
+    InitPlayers(WINDOW->render, WINDOW->surface);
+    InitSprites(WINDOW->render, WINDOW->surface);
+    return 0;
 };
 
 
@@ -39,10 +41,10 @@ int SafeArea(AreaMap *Map){
 }
 
 
-int CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsigned int type, double rotation, SDL_Renderer *Render) {
+int CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsigned int TYPE, double rotation, SDL_Renderer *Render) {
     cord nsc = find_cell(x, y, Map);
     Layot *P_to_L = &Map->cells[nsc.x][nsc.y].layots[layot];
-    Type *New_Sprite_type = Give_Type(type);
+    type *New_Sprite_type = _loadSpriteType(TYPE);
     P_to_L->LenSprites++;
 
     if (P_to_L->LenSprites == 1) {
@@ -50,14 +52,13 @@ int CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsigned 
     } else {
     P_to_L->sprites = realloc(P_to_L->sprites, (sizeof(Sprite) * P_to_L->LenSprites));
     }
-    _loadTexture(&P_to_L->sprites[P_to_L->LenSprites].typeSet->STexture, New_Sprite_type->path, Render);
     strncpy(P_to_L->sprites[P_to_L->LenSprites].name, name, 15);
     P_to_L->sprites[P_to_L->LenSprites].arguments.layot = layot;
     P_to_L->sprites[P_to_L->LenSprites].arguments.pah.x = x;
     P_to_L->sprites[P_to_L->LenSprites].arguments.pah.y = y;
     P_to_L->sprites[P_to_L->LenSprites].arguments.rotation = rotation;
-    P_to_L->sprites[P_to_L->LenSprites].typeSet->CenterOffset = New_Sprite_type->Center;
-    P_to_L->sprites[P_to_L->LenSprites].arguments.reflaction = New_Sprite_type->reflaction;
+    P_to_L->sprites[P_to_L->LenSprites].arguments.reflaction = 0;
+    P_to_L->sprites[P_to_L->LenSprites].typeSet = New_Sprite_type;
 
     return 1;
 }
