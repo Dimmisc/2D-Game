@@ -34,6 +34,7 @@ int InitSprites(SDL_Renderer *RENDER, SDL_Surface *SURFACE) {
     }
     // Types[0].type = 0;
     // Types[0].playerTexture = _loadTexture();
+    printf("S Inited!\n");
     return 0;
 }
 

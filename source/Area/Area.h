@@ -3,8 +3,6 @@
 
 #include "sprites/sprite.h"
 #include "Player/Player.h"
-#include "Area.h"
-#include "../SEL.h"
 
 
 typedef struct Layot {
@@ -41,14 +39,14 @@ typedef struct AreaMap {
     //int sizeffects;
 } AreaMap;
 
-
+int _InitMap(char *NAME, SDL_Renderer *RENDER, SDL_Surface *SURFACE);
 int CreateSprite(AreaMap *Map, int x, int y, int layot, char name[15], unsigned int type, double rotation, SDL_Renderer *Render);
 int _loadTexture(SDL_Texture **Place, char path[], SDL_Renderer *Render);
 int ChangePositionSprite_BI(AreaMap *Map, unsigned long int id, int x, int y, SDL_Point Vector);
 Sprite *MSprite_BI(AreaMap *Map, unsigned long int id, int x, int y);
 int CloseArea(AreaMap *Map);
 char *AreaGetError(AreaMap *folder);
-int _InitMap(const char *NAME, const SEL_Window * WINDOW);
+
 
 
 #endif

@@ -1,23 +1,19 @@
-#define _Area_C_
+
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <SDL2/SDL_image.h>
 
-
 #include "Area.h"
     
 typedef Point cord;
-int _MapInit(){
-    return 0;
-}
 
 
-int _InitMap(const char *NAME, const SEL_Window * WINDOW) {
+int _InitMap(char *NAME, SDL_Renderer *RENDER, SDL_Surface *SURFACE) {
     AreaMap *Map = calloc(1, sizeof(AreaMap));
-    InitPlayers(WINDOW->render, WINDOW->surface);
-    InitSprites(WINDOW->render, WINDOW->surface);
+    InitPlayers(RENDER, SURFACE);
+    InitSprites(RENDER, SURFACE);
     return 0;
 };
 

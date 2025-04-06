@@ -29,6 +29,7 @@ int InitPlayers(SDL_Renderer *RENDER, SDL_Surface *SURFACE) {
     }
     // Types[0].type = 0;
     // Types[0].playerTexture = _loadTexture();
+    printf("P Inited!\n");
     return 0;
 }
 

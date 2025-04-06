@@ -6,7 +6,7 @@ project(2D-Game)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(2D-Game Main.c source/SEL.c source/Area/Area.c source/Area/Player/Player.c source/Area/sprites/sprite.c source/Area/map/MapLoad.c)
+add_executable(2D-Game Main.c source/SEL.c  source/Area/Area.c  source/Area/Player/Player.c  source/Area/sprites/sprite.c  source/Area/map/MapLoad.c )
 
 
 

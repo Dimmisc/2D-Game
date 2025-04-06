@@ -13,7 +13,7 @@
 
 
 SEL_Window *SEL_init(WindowSettings *settings) {
-    SEL_Window ARG;
+    SEL_Window ARG = {};
     printf("Start initialization Window: %s\n", settings->name);
     int succes = 0;
     ARG.window = SDL_CreateWindow(settings->name,
@@ -36,7 +36,7 @@ SEL_Window *SEL_init(WindowSettings *settings) {
             printf("Render is created. Window: %s\n", settings->name);
         }
     }
-    _InitMap("TestMap", &ARG);
+    _InitMap("TestMap", ARG.render, ARG.surface);
     return &ARG;
 }
 

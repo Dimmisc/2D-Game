@@ -1,12 +1,6 @@
 #ifndef _SEL_H_
 #define _SEL_H_
-
-
 #include "Area/Area.h"
-
-// Needable to Rethink
-
-
 
 typedef struct WindowSetting {
     int width;
@@ -15,10 +9,13 @@ typedef struct WindowSetting {
     int y;
     char name[15];
 } WindowSettings;
+
+
 typedef struct SWS {
     int height;
     int width;
-} SWS;
+} SWS ;
+
 
 typedef struct SEL_Window {
     char Error[30];
@@ -26,10 +23,9 @@ typedef struct SEL_Window {
     SDL_Surface *surface;
     SDL_Renderer *render;
     SWS WindowSettings;
-    AreaMap *Map;
+    struct AreaMap *Map;
     uint8_t ErrorContinue;
-} SEL_Window;
-
+} SEL_Window ;
 
 
 SEL_Window *SEL_init( WindowSettings *settings);
