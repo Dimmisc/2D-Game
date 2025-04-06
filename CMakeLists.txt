@@ -20,3 +20,7 @@ target_link_libraries(2D-Game SDL2_image::SDL2_image)
 #      )
 # include_directories(source include)
 # add_executable(2D-Game ${SOURCE})
+set_target_properties(2D-Game PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${PROJECT_BINARY_DIR}/../"
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${PROJECT_BINARY_DIR}/../"
+)

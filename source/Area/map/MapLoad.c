@@ -277,8 +277,10 @@ int _save_map(const AreaMap *map, const char *filename) {
     int write_err = 0;
     write_err |= (fprintf(fp, "%s\n", map->error) < 0);
     write_err |= (fprintf(fp, "%d %d %d %d %d\n",
-                          map->cellsArg.height, map->cellsArg.width,
-                          map->cellsArg.massHeight, map->cellsArg.massWidth,
+                          map->cellsArg.height, 
+                          map->cellsArg.width,
+                          map->cellsArg.massHeight, 
+                          map->cellsArg.massWidth,
                           map->cellsArg.layots) < 0);
     if (!write_err) write_err |= savePlayer(fp, &map->player);
     write_err |= (fprintf(fp, "%s\n", map->name) < 0);
