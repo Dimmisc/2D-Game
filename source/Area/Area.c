@@ -6,15 +6,17 @@
 #include <SDL2/SDL_image.h>
 
 #include "Area.h"
+#include "map/MapLoad.h"
     
 typedef Point cord;
 
 
-int _InitMap(char *NAME, SDL_Renderer *RENDER, SDL_Surface *SURFACE) {
-    AreaMap *Map = calloc(1, sizeof(AreaMap));
+AreaMap *_InitMap(char *NAME, SDL_Renderer *RENDER, SDL_Surface *SURFACE) {
+    AreaMap *Map;
     InitPlayers(RENDER, SURFACE);
     InitSprites(RENDER, SURFACE);
-    return 0;
+    Map = _load_map("source/Area/map/TestMap.txt");
+    return Map;
 };
 
 

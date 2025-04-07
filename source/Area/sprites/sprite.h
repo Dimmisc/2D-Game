@@ -15,13 +15,13 @@ typedef struct {
     uint8_t layot;
 } ParametresSprite;
 
-typedef struct Rectangle {
+typedef struct SEL_Rectangle {
     SDL_Point TLPoint;
     SDL_Point BRPoint;
-} Rectangle;
+} SEL_Rectangle;
 
 typedef struct Collision {
-    Rectangle *rectangles;
+    SEL_Rectangle *rectangles;
     int16_t SRect;
 } Collision;
 

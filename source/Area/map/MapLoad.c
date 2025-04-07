@@ -20,10 +20,6 @@ int loadParametresSprite(FILE *fp, ParametresSprite *params) {
                               &params->pah.h,
                               &params->rotation,
                               &layot_uint); // Read uint8_t into unsigned int
-    printf("%d %d %d %d\n", params->pah.x, 
-        params->pah.y, 
-        params->pah.w, 
-        params->pah.h);
     if (actual_reads != expected_reads) return -1;
 
     params->reflaction = (SDL_RendererFlip)reflaction_int; // Cast back to enum
@@ -69,22 +65,14 @@ int savePlayer(FILE *fp, const Player *player) {
 int loadPlayer(FILE *fp, Player *player) {
     // Load name
     if (fscanf(fp, "%14s", player->name) != 1) return -1;
-    fgetc(fp); // Consume newline
-
-    // Load Inventory (Dummy implementation)
-    char inv_buffer[100]; // Buffer to read the placeholder line
-    if (fgets(inv_buffer, sizeof(inv_buffer), fp) == NULL) return -1; // Read and discard line
-    // In a real implementation, parse inv_buffer to load inventory data
-
-    // Load arguments
+    fgetc(fp);
+    char inv_buffer[100]; 
+    if (fgets(inv_buffer, sizeof(inv_buffer), fp) == NULL) return -1;
     if (loadParametresSprite(fp, &player->arguments) != 0) return -1;
-    // loadParametresSprite consumes its newline
-
-    // Load PlayerType* (Placeholder - set to NULL)
-    unsigned int* Type; // Read the saved pointer address (which is useless)
+    unsigned int Type; 
     if (fscanf(fp, "%u", &Type) != 1) return -1;
-    player->TypeSet = NULL; // <<<< IMPORTANT: Must set to NULL or reconstruct properly
-    fgetc(fp); // Consume newline
+    player->TypeSet = _loadPlayerType(Type); 
+    fgetc(fp); 
 
     // Load player layot
     unsigned int layot_uint;
@@ -117,17 +105,14 @@ int loadSprite(FILE *fp, Sprite *sprite) {
     // Load name
     if (fscanf(fp, "%14s", sprite->name) != 1) return -1;
     fgetc(fp); // Consume newline
-    printf("some12\n");
     // Load arguments
     if (loadParametresSprite(fp, &sprite->arguments) != 0) return -1;
     // loadParametresSprite consumes its newline
-    printf("some1234\n");
     // Load type* (Placeholder - set to NULL)
-    int type;
+    unsigned int type;
     if (fscanf(fp, "%u", &type) != 1) return -1;
-    sprite->typeSet = NULL; // <<<< IMPORTANT: Must set to NULL or reconstruct properly
+    sprite->typeSet = _loadSpriteType(type); 
     fgetc(fp); // Consume newline
-    printf("some123456\n");
     // Load ID
 
     // if (fscanf(fp, "%d", &sprite->id) != 1) return -1; // %u for uint32_t
@@ -171,6 +156,7 @@ AreaMap *_load_map(const char *filename) {
     if (actual_reads != expected_reads) { read_err = 1; goto cleanup; }
     fgetc(fp);
     if (loadPlayer(fp, &map->player) != 0) { read_err = 1; goto cleanup; }
+    printf("Player: %s %d\n", map->player.name, map->player.layot);
     expected_reads = 1;
     actual_reads = fscanf(fp, "%14s", map->name); // Use %14s for char[15]
     if (actual_reads != expected_reads) { read_err = 1; goto cleanup; }
@@ -184,14 +170,16 @@ AreaMap *_load_map(const char *filename) {
         read_err = 1;
         goto cleanup;
     }
-    printf("hoho%c\n", fgetc(fp));
     map->cells = (Cell **)malloc(map->cellsArg.massHeight * sizeof(Cell *));
     if (!map->cells) { perror("Failed to allocate memory for cell rows"); read_err = 1; goto cleanup; }
     for(int i = 0; i < map->cellsArg.massHeight; ++i) map->cells[i] = NULL;
-
     for (int i = 0; i < map->cellsArg.massHeight; ++i) {
         map->cells[i] = (Cell *)calloc(map->cellsArg.massWidth, sizeof(Cell));
-        if (!map->cells[i]) { perror("Failed to allocate memory for cell row"); read_err = 1; goto cleanup; }
+        if (!map->cells[i]) { 
+            perror("Failed to allocate memory for cell row"); 
+            read_err = 1; 
+            goto cleanup; 
+        }
 
         for (int j = 0; j < map->cellsArg.massWidth; ++j) {
             Cell *currentCell = &map->cells[i][j];
@@ -205,7 +193,11 @@ AreaMap *_load_map(const char *filename) {
             fgetc(fp); 
             if (currentCell->SizeLayots > 0) {
                 currentCell->layots = (Layot *)calloc(currentCell->SizeLayots, sizeof(Layot));
-                if (!currentCell->layots) { perror("Failed to allocate memory for layots"); read_err = 1; goto cleanup; }
+                if (!currentCell->layots) {
+                    perror("Failed to allocate memory for layots"); 
+                    read_err = 1; 
+                    goto cleanup; 
+                }
 
                 for (int k = 0; k < currentCell->SizeLayots; ++k) {
                     Layot *currentLayot = &currentCell->layots[k];
@@ -219,7 +211,11 @@ AreaMap *_load_map(const char *filename) {
                     fgetc(fp);
                     if (currentLayot->LenSprites > 0) {
                         currentLayot->sprites = (Sprite *)calloc(currentLayot->LenSprites, sizeof(Sprite)); // Use calloc
-                        if (!currentLayot->sprites) { perror("Failed to allocate memory for sprites"); read_err = 1; goto cleanup; }
+                        if (!currentLayot->sprites) { 
+                            perror("Failed to allocate memory for sprites"); 
+                            read_err = 1; 
+                            goto cleanup; 
+                        }
 
                         for (int l = 0; l < currentLayot->LenSprites; ++l) {
                             Sprite *currentSprite = &currentLayot->sprites[l];

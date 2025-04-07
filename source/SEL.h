@@ -23,7 +23,7 @@ typedef struct SEL_Window {
     SDL_Surface *surface;
     SDL_Renderer *render;
     SWS WindowSettings;
-    struct AreaMap *Map;
+    AreaMap *Map;
     uint8_t ErrorContinue;
 } SEL_Window ;
 
@@ -31,7 +31,8 @@ typedef struct SEL_Window {
 SEL_Window *SEL_init( WindowSettings *settings);
 int Moving_of_Sprites(AreaMap *AREA, int speed);
 int UpdateScreen(SEL_Window *ARG);
-int SEL_Start(int TPS, SEL_Window *Window);
+uint64_t get_monotonic_time_ns();
+int SEL_Start(int target_fps, SEL_Window *Window);
 int SEL_WQuit(SEL_Window *ARG);
 int SEL_AQuit(AreaMap *Area);
 int SEL_Exit();

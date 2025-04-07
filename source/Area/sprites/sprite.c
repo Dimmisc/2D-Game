@@ -19,7 +19,7 @@ int _TYPES_COUNT = 4;
 
 
 _Type SpriteTYPES[2] = {{"/PlayersTextures/StartPlayer.png", 128, 256, {0, 0}, {1}}};
-int PST = 2;
+int PST = 0;
 type *SpriteTypes = NULL;
 
 int InitSprites(SDL_Renderer *RENDER, SDL_Surface *SURFACE) {
@@ -31,6 +31,9 @@ int InitSprites(SDL_Renderer *RENDER, SDL_Surface *SURFACE) {
         SpriteTypes[i].height = SpriteTYPES[i].height, SpriteTypes[i].width = SpriteTYPES[i].width, SpriteTypes[i].CenterOffset = SpriteTYPES[i].centerOffset;
         SpriteTypes[i].type = i;
         SDL_FreeSurface(SURFACE);
+    }
+    if (PST == 0){
+        printf("Warning Have no Sprite Types\n");
     }
     // Types[0].type = 0;
     // Types[0].playerTexture = _loadTexture();
