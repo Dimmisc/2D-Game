@@ -9,11 +9,11 @@
 
 int WinMain(int argc, char* argv[]){
     WindowSettings WS;
-    WS.height = 700;
-    WS.width = 1000;
+    WS.height = 1000;
+    WS.width = 1800;
     strcpy(WS.name, "Start");
     WS.x = 20;
-    WS.y = 20;
+    WS.y = 0;
     SEL_Window *Window = SEL_init(&WS);
     printf("%s\n", Window->WindowSettings.height);
     printf("%d\t%d\n", sizeof(Sprite), sizeof(ParametresSprite));
