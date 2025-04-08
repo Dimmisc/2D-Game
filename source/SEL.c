@@ -41,7 +41,7 @@ SEL_Window *SEL_init(WindowSettings *settings) {
             printf("Render is created. Window: %s\n", settings->name);
         }
     }
-    ARG->WindowSettings = (SWS){settings->height, settings->width};
+    ARG->WindowSettings = (SWS){.height = settings->height, .width = settings->width};
     ARG->Map = _InitMap("TestMap", ARG->render, ARG->surface);
     printf("%s\n", ARG->Map->name);
 
@@ -79,7 +79,10 @@ int UpdateScreen(SEL_Window *ARG) {
     for (int layot = 0; layot < _Len_layot; layot++) {
         if (_PlayerLayot == layot) {
             SDL_Rect Sstrect = {Hh, Hw, 0, 0};
-            SDL_Rect Dstrect = {_PlayerP->TypeSet->height, _PlayerP->TypeSet->width, Hh - _PlayerP->TypeSet->height / 2, Hh - _PlayerP->TypeSet->width / 2};
+            SDL_Rect Dstrect = {.h = _PlayerP->TypeSet->height, 
+                                .w = _PlayerP->TypeSet->width,
+                                .x = Hh - _PlayerP->TypeSet->height / 2,
+                                .y = Hh - _PlayerP->TypeSet->width / 2};
             SDL_Point PCenterR = {Hh + (_PlayerP->TypeSet->height / 2), Hw + (_PlayerP->TypeSet->width / 2)};
             // SDL_RenderCopy(ARG,)
             Truth = SDL_RenderCopyEx(ARG->render,
@@ -107,7 +110,7 @@ int UpdateScreen(SEL_Window *ARG) {
                         SDL_Rect Srect = {P_TO_S->arguments.pah.x - _PlayerP->arguments.pah.x + Hw,
                                           P_TO_S->arguments.pah.y - _PlayerP->arguments.pah.y + Hh, 0, 0};
                         
-                        SDL_Point SCenterR = {P_TO_S->arguments.pah.x - _PlayerP->arguments.pah.x + Hw, 
+                        SDL_Point SCenterR = {.x =P_TO_S->arguments.pah.x - _PlayerP->arguments.pah.x + Hw, 
                                               P_TO_S->arguments.pah.y - _PlayerP->arguments.pah.y + Hh};
 
                         

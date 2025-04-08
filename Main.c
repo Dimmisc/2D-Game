@@ -15,7 +15,7 @@ int WinMain(int argc, char* argv[]){
     WS.x = 20;
     WS.y = 0;
     SEL_Window *Window = SEL_init(&WS);
-    printf("%s\n", Window->WindowSettings.height);
+    printf("%d\n", Window->WindowSettings.height);
     printf("%d\t%d\n", sizeof(Sprite), sizeof(ParametresSprite));
     SEL_Start(60, Window); // Now dont work because not all structures are fulling after initialisation
     SEL_Exit();
