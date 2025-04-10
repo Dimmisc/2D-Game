@@ -11,6 +11,7 @@ typedef struct {
     int height;
     SDL_Point centerOffset;
     SDL_RendererFlip reflaction;
+    Collision Scolis;
 } _Type;
 
 
@@ -18,8 +19,8 @@ const _Type TYPESET[4];
 int _TYPES_COUNT = 4;
 
 
-_Type SpriteTYPES[2] = {{"/PlayersTextures/StartPlayer.png", 128, 256, {0, 0}, {1}}};
-int PST = 0;
+_Type SpriteTYPES[2] = {{"/source/Area/sprites/Grass.png", 50, 50, {0, 0}, {1}}};
+int PST = 1;
 type *SpriteTypes = NULL;
 
 int InitSprites(SDL_Renderer *RENDER, SDL_Surface *SURFACE) {

@@ -9,8 +9,8 @@
 
 int WinMain(int argc, char* argv[]){
     WindowSettings WS;
-    WS.height = 1000;
-    WS.width = 1800;
+    WS.height = 1060;
+    WS.width = 1920;
     strcpy(WS.name, "Start");
     WS.x = 20;
     WS.y = 0;

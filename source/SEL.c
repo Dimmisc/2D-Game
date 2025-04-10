@@ -23,7 +23,7 @@ SEL_Window *SEL_init(WindowSettings *settings) {
                                    settings->y,
                                    settings->width,
                                    settings->height,
-                                   SDL_WINDOW_SHOWN
+                                   SDL_WINDOW_FULLSCREEN_DESKTOP
                                    );
     if (ARG->window == NULL) {
         printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -111,7 +111,7 @@ int UpdateScreen(SEL_Window *ARG) {
                                               P_TO_S->arguments.pah.y - _PlayerP->arguments.pah.y + Hh};
 
                         
-                        if (Srect.x < ARG->WindowSettings.width & Srect.x > 0 & Srect.y < ARG->WindowSettings.height & Srect.y > 0){
+                        if (Srect.x < ARG->WindowSettings.width & Srect.x > 0 & Srect.y < ARG->WindowSettings.height & Srect.y > 0) {
                             int true = SDL_RenderCopyEx(ARG->render,
                                             P_TO_S->typeSet->STexture,
                                             NULL,

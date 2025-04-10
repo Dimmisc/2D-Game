@@ -6,6 +6,7 @@
 
 #include <SDL2/SDL_image.h>
 
+
 typedef struct _PlayerPattern{
     char ImgPath[100];
     uint16_t textureHeight;
@@ -13,9 +14,11 @@ typedef struct _PlayerPattern{
     Point centerOffset;
 } _PlayerPattern;
 
+
 _PlayerPattern PLAYERTYPES[1] = {{"source/Area/Player/PlayersTextures/StartPlayer.png", 128, 256, {0, 0}}};
 int PPT = 1;
 PlayerType *PlayerTypes = NULL;
+
 
 int InitPlayers(SDL_Renderer *RENDER, SDL_Surface *SURFACE) {
     size_t some = sizeof(int);
@@ -46,6 +49,7 @@ PlayerType *_loadPlayerType(unsigned int Type) {
     return &PlayerTypes[Type];
 }
 
+
 void QPlayers() {
     for (int i = 0;i<PPT;i++){
         SDL_DestroyTexture(PlayerTypes[i].playerTexture);
@@ -53,41 +57,50 @@ void QPlayers() {
     }
 }
 
+
 int _PlayerKeybordManage(Player *Player) {
-
-
-    uint8_t M_U = 0, M_D = 0, M_L = 0, M_R = 0;
+    
+    static uint8_t M_U = 0, M_D = 0, M_L = 0, M_R = 0;
     Uint8* keyboardState = SDL_GetKeyboardState(NULL);
     vector *_argument = &Player->arguments.VectorMotion;
-    SDL_RendererFlip *_position = &Player->arguments.reflaction;
-
+    SDL_Rect *_position = &Player->arguments.pah;
 
 
     if (keyboardState[SDL_SCANCODE_W] || keyboardState[SDL_SCANCODE_UP]) {
         M_U = 1;
         // Код для движения вперед
+        _argument->x += 10;
     }
     if (keyboardState[SDL_SCANCODE_S] || keyboardState[SDL_SCANCODE_DOWN]) {
         M_D = 1;
         // Код для движения назад
+        _argument->x -= 10;
     }
     if (keyboardState[SDL_SCANCODE_A] || keyboardState[SDL_SCANCODE_LEFT]) {
         M_L = 1;
         // Код для движения влево
+        _argument->y -= 10;
     }
     if (keyboardState[SDL_SCANCODE_D] || keyboardState[SDL_SCANCODE_RIGHT]) {
         M_R = 1;
         // Код для движения вправо
+        _argument->y += 10;
     }
+    // Player mowing
+
+    _position->x += _argument->x;
+    _position->y += _argument->y;
+    
+
 
     // Player Braking
 
     if (_argument->x !=0 && M_L == 0 && M_R == 0){
         if (_argument->x > 0) {
-            _argument->x -= (int) round(_argument->x * 0.1) + 1;
+            _argument->x -= (int) round(_argument->x * 0.4) + 1;
         }
         else {
-            _argument->x -= (int) round(_argument->x * 0.1) - 1;
+            _argument->x -= (int) round(_argument->x * 0.4) - 1;
         }
     }
     if (_argument->y !=0 && M_U == 0 && M_D == 0){
@@ -101,11 +114,10 @@ int _PlayerKeybordManage(Player *Player) {
     return 0;
 }
 
+
 int _PlayerHandler(AreaMap *MAP){
     if (_PlayerKeybordManage(&MAP->player) != NULL){
         printf("Error: Managing keybord of Player!");
     }
     return 0;
 }
-
-

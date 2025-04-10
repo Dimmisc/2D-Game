@@ -173,7 +173,7 @@ AreaMap *_load_map(const char *filename) {
     map->cells = (Cell **)malloc(map->cellsArg.massHeight * sizeof(Cell *));
     if (!map->cells) { perror("Failed to allocate memory for cell rows"); read_err = 1; goto cleanup; }
     for(int i = 0; i < map->cellsArg.massHeight; ++i) map->cells[i] = NULL;
-    for (int i = 0; i < map->cellsArg.massHeight; ++i) {
+    for (int i = 0; i < map->cellsArg.massWidth; ++i) {
         map->cells[i] = (Cell *)calloc(map->cellsArg.massWidth, sizeof(Cell));
         if (!map->cells[i]) { 
             perror("Failed to allocate memory for cell row"); 
@@ -181,7 +181,7 @@ AreaMap *_load_map(const char *filename) {
             goto cleanup; 
         }
 
-        for (int j = 0; j < map->cellsArg.massWidth; ++j) {
+        for (int j = 0; j < map->cellsArg.massHeight; ++j) {
             Cell *currentCell = &map->cells[i][j];
             expected_reads = 1;
             actual_reads = fscanf(fp, "%d", &currentCell->SizeLayots);
@@ -270,6 +270,8 @@ int _save_map(const AreaMap *map, const char *filename) {
     if (!write_err) write_err |= savePlayer(fp, &map->player);
     write_err |= (fprintf(fp, "%s\n", map->name) < 0);
     write_err |= (fprintf(fp, "%d %d\n", map->mapwidth, map->mapheight) < 0);
+
+
     for (int i = 0; i < map->cellsArg.massHeight && !write_err; ++i) {
         for (int j = 0; j < map->cellsArg.massWidth && !write_err; ++j) {
             if (!map->cells || !map->cells[i]) {
