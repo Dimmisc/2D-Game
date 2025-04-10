@@ -7,18 +7,23 @@
 #include <stdint.h>
 
 typedef SDL_Point Point;
+typedef Point vector;
+
 
 typedef struct {
     SDL_RendererFlip reflaction;
     SDL_Rect pah;
     double rotation;
     uint8_t layot;
+    vector VectorMotion;
 } ParametresSprite;
+
 
 typedef struct SEL_Rectangle {
     SDL_Point TLPoint;
     SDL_Point BRPoint;
 } SEL_Rectangle;
+
 
 typedef struct Collision {
     SEL_Rectangle *rectangles;
@@ -44,7 +49,6 @@ typedef struct Sprite {
 } Sprite;   
 
 
-
 typedef struct {
     unsigned int item_id;
     unsigned int count;
@@ -55,7 +59,6 @@ typedef struct {
     Item *items;
     int Litems;
 } Inventory;
-
 
 
 typedef struct ThinkSprite {
@@ -79,7 +82,9 @@ typedef struct InventorySprite {
     unsigned int type;
 } InventorySprite;
 
+
 int InitSprites(SDL_Renderer *RENDER, SDL_Surface *SURFACE);
 type *_loadSpriteType(unsigned int Type);
+
 
 #endif

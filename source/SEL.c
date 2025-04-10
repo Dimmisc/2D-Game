@@ -1,10 +1,7 @@
 #define _SEL_C_
 
 #define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <stdio.h> 
-#include <profileapi.h> 
-#include <intrin.h>  
+
 #include <stdlib.h>
 #include <string.h>
 #include <SDL2/SDL_image.h>
@@ -73,7 +70,7 @@ int UpdateScreen(SEL_Window *ARG) {
     uint8_t _Len_layot = ARG->Map->cellsArg.layots;
     Player * _PlayerP = &ARG->Map->player;
     uint8_t Truth = 0;
-    printf("%d screen update\n", screenupdate++);
+    // printf("Su: %d \n", screenupdate++);
     int _Px = _PlayerP->arguments.pah.x + 100, _Py = _PlayerP->arguments.pah.y + 100;
     int Hw = ARG->WindowSettings.width / 2, Hh = ARG->WindowSettings.height / 2;
     for (int layot = 0; layot < _Len_layot; layot++) {
@@ -138,6 +135,11 @@ int UpdateScreen(SEL_Window *ARG) {
     return succes;
 }
 
+#ifdef WIN32
+#include <windows.h>
+#include <stdio.h> 
+#include <profileapi.h> 
+#include <intrin.h>  
 
 static LARGE_INTEGER g_qpc_frequency = {0};
 
@@ -155,6 +157,7 @@ int initialize_timing() {
     }
     return 1;
 }
+
 
 
 uint64_t get_monotonic_time_ns() {
@@ -193,7 +196,7 @@ void precise_sleep_ns(uint64_t nanoseconds) {
 
 int SEL_Start(int target_fps, SEL_Window *Window) {
     if (target_fps <= 0) {
-        fprintf(stderr, "Ошибка: target_fps должен быть больше 0.\n");
+        fprintf(stderr, "Error: target_fps must be above 0.\n");
         return 0;
     }
     if (!initialize_timing()) {
@@ -203,7 +206,7 @@ int SEL_Start(int target_fps, SEL_Window *Window) {
     uint64_t frame_count = 0;
     uint64_t current_time_ns = get_monotonic_time_ns();
     if (current_time_ns == 0 && g_qpc_frequency.QuadPart != 0) { 
-        fprintf(stderr, "Ошибка: Не удалось получить начальное время.\n");
+        fprintf(stderr, "Error: Cant get start time value.\n");
         return FALSE;
     }
     uint64_t next_frame_target_time_ns = current_time_ns + target_frame_ns;
@@ -214,7 +217,6 @@ int SEL_Start(int target_fps, SEL_Window *Window) {
         // Place to state functions
 
         UpdateScreen(Window);
-        printf("Incredible\n");
         frame_count++;
         current_time_ns = get_monotonic_time_ns();
         if (current_time_ns < next_frame_target_time_ns) {
@@ -231,23 +233,29 @@ int SEL_Start(int target_fps, SEL_Window *Window) {
     printf("Ended\n");
     return TRUE;
 }
-
+#endif
 
 /*This Function is necessary t brake your window */
 int SEL_WQuit(SEL_Window *ARG) {
+    CloseArea(ARG->Map);
     SDL_DestroyRenderer( ARG->render );
     SDL_FreeSurface( ARG->surface );
     SDL_DestroyWindow( ARG->window );
-    SDL_Quit();
     return 1;
 }
 
-int SEL_AQuit(AreaMap *Area){
+int SEL_MapQuit(AreaMap *Area){
     CloseArea(Area);
     return 1;
 }
 
 int SEL_Exit() {
+    SDL_Quit();
+    IMG_Quit();
+    return 1;
+}
+int SEL_AExit(SEL_Window *ARG) {
+    SEL_WQuit(ARG);
     SDL_Quit();
     IMG_Quit();
     return 1;

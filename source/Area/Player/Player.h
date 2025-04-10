@@ -4,6 +4,7 @@
 
 #include "../sprites/sprite.h"
 
+
 typedef struct PlayerType {
     SDL_Texture *playerTexture;
     int width;
@@ -13,7 +14,6 @@ typedef struct PlayerType {
 } PlayerType;
 
 
-
 typedef struct Player {
     char name[15];
     Inventory inventory;
@@ -21,6 +21,7 @@ typedef struct Player {
     PlayerType *TypeSet;
     uint8_t layot;
 } Player;
+
 
 int InitPlayers(SDL_Renderer *RENDER, SDL_Surface *SURFACE);
 PlayerType *_loadPlayerType(unsigned int Type);
