@@ -12,8 +12,8 @@ int WinMain(int argc, char* argv[]){
     WS.height = 1060;
     WS.width = 1920;
     strcpy(WS.name, "Start");
-    WS.x = 20;
-    WS.y = 0;
+    WS.x = 0;
+    WS.y = 20;
     SEL_Window *Window = SEL_init(&WS);
     printf("%d\n", Window->WindowSettings.height);
     printf("%d\t%d\n", sizeof(Sprite), sizeof(ParametresSprite));

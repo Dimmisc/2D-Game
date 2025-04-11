@@ -26,6 +26,6 @@ typedef struct Player {
 int InitPlayers(SDL_Renderer *RENDER, SDL_Surface *SURFACE);
 PlayerType *_loadPlayerType(unsigned int Type);
 void QPlayers();
-
+int _PlayerKeybordManage(Player *Player);
 
 #endif

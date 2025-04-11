@@ -76,9 +76,9 @@ int loadPlayer(FILE *fp, Player *player) {
 
     // Load player layot
     unsigned int layot_uint;
-    if (fscanf(fp, "%u", &layot_uint) != 1) return -1;
-    player->layot = (uint8_t)layot_uint;
-    fgetc(fp); // Consume newline
+    // if (fscanf(fp, "%u", &layot_uint) != 1) return -1;
+    // player->layot = (uint8_t)layot_uint;
+    // fgetc(fp); // Consume newline
 
     return 0;
 }
@@ -170,11 +170,11 @@ AreaMap *_load_map(const char *filename) {
         read_err = 1;
         goto cleanup;
     }
-    map->cells = (Cell **)malloc(map->cellsArg.massHeight * sizeof(Cell *));
+    map->cells = (Cell **)malloc(map->cellsArg.massWidth * sizeof(Cell *));
     if (!map->cells) { perror("Failed to allocate memory for cell rows"); read_err = 1; goto cleanup; }
-    for(int i = 0; i < map->cellsArg.massHeight; ++i) map->cells[i] = NULL;
-    for (int i = 0; i < map->cellsArg.massWidth; ++i) {
-        map->cells[i] = (Cell *)calloc(map->cellsArg.massWidth, sizeof(Cell));
+    for(int i = 0; i < map->cellsArg.massWidth; ++i) map->cells[i] = NULL;
+    for (int i = 0; i < map->cellsArg.massHeight; ++i) {
+        map->cells[i] = (Cell *)calloc(map->cellsArg.massHeight, sizeof(Cell));
         if (!map->cells[i]) { 
             perror("Failed to allocate memory for cell row"); 
             read_err = 1; 
@@ -183,31 +183,39 @@ AreaMap *_load_map(const char *filename) {
 
         for (int j = 0; j < map->cellsArg.massHeight; ++j) {
             Cell *currentCell = &map->cells[i][j];
+            int Nlayots = 0;
             expected_reads = 1;
-            actual_reads = fscanf(fp, "%d", &currentCell->SizeLayots);
-            if (actual_reads != expected_reads || currentCell->SizeLayots < 0) {
+            actual_reads = fscanf(fp, "%d", &Nlayots);
+            //printf("some\n");
+            if (actual_reads != expected_reads || Nlayots < 0) {
                 fprintf(stderr, "Error reading SizeLayots for cell [%d][%d].\n", i, j);
                 read_err = 1; 
                 goto cleanup;
             }
             fgetc(fp); 
-            if (currentCell->SizeLayots > 0) {
-                currentCell->layots = (Layot *)calloc(currentCell->SizeLayots, sizeof(Layot));
+            if (Nlayots > 0) {
+                //printf("some1\n");
+                currentCell->SizeLayots = map->cellsArg.layots;
+                currentCell->layots = (Layot *)calloc(map->cellsArg.layots, sizeof(Layot));
                 if (!currentCell->layots) {
                     perror("Failed to allocate memory for layots"); 
                     read_err = 1; 
                     goto cleanup; 
                 }
 
-                for (int k = 0; k < currentCell->SizeLayots; ++k) {
-                    Layot *currentLayot = &currentCell->layots[k];
+                for (int k = 0; k < Nlayots; k++) {
+                    int scan_layot = 0, NSprites = 0;
                     expected_reads = 2;
-                    actual_reads = fscanf(fp, "%d %d", &currentLayot->LenSprites, &currentLayot->height);
+                    actual_reads = fscanf(fp, "%d %d", &scan_layot, &NSprites);
+                    Layot *currentLayot = &currentCell->layots[scan_layot];
+                    currentLayot->LenSprites = NSprites;
+                    printf("sl, N:%d %d;\n", scan_layot, NSprites);
                     if (actual_reads != expected_reads || currentLayot->LenSprites < 0) {
                         fprintf(stderr, "Error reading LenSprites for cell [%d][%d], layot %d.\n", i, j, k);
                         read_err = 1; 
                         goto cleanup;
                      }
+                    //perror("some");
                     fgetc(fp);
                     if (currentLayot->LenSprites > 0) {
                         currentLayot->sprites = (Sprite *)calloc(currentLayot->LenSprites, sizeof(Sprite)); // Use calloc

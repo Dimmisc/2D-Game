@@ -18,12 +18,16 @@ SEL_Window *SEL_init(WindowSettings *settings) {
     SEL_Window *ARG = (SEL_Window*)calloc(1, sizeof(SEL_Window));
     printf("Start initialization Window: %s\n", settings->name);
     int succes = 0;
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) { // Инициализируем видео подсистему (нужна для окна и событий)
+        printf("Error: Vidio init: %s", SDL_GetError());
+        return NULL;
+    }
     ARG->window = SDL_CreateWindow(settings->name,
                                    settings->x,
                                    settings->y,
                                    settings->width,
                                    settings->height,
-                                   SDL_WINDOW_FULLSCREEN_DESKTOP
+                                   SDL_WINDOW_SHOWN
                                    );
     if (ARG->window == NULL) {
         printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -40,7 +44,7 @@ SEL_Window *SEL_init(WindowSettings *settings) {
     }
     ARG->WindowSettings = (SWS){.height = settings->height, .width = settings->width};
     ARG->Map = _InitMap("TestMap", ARG->render, ARG->surface);
-    printf("%s\n", ARG->Map->name);
+    printf("%d, %d\n", ARG->WindowSettings.height, ARG->WindowSettings.width);
 
     return ARG;
 }
@@ -65,7 +69,9 @@ int UpdateScreen(SEL_Window *ARG) {
     int succes = 1;
     if (screenupdate > 0){
         SDL_RenderClear(ARG->render);
+        screenupdate++;
     }
+    screenupdate++;
     uint8_t _PlayerLayot = ARG->Map->player.layot;
     uint8_t _Len_layot = ARG->Map->cellsArg.layots;
     Player * _PlayerP = &ARG->Map->player;
@@ -78,8 +84,8 @@ int UpdateScreen(SEL_Window *ARG) {
             SDL_Rect Sstrect = {Hh, Hw, 0, 0};
             SDL_Rect Dstrect = {.h = _PlayerP->TypeSet->height, 
                                 .w = _PlayerP->TypeSet->width,
-                                .x = Hh - _PlayerP->TypeSet->height / 2,
-                                .y = Hh - _PlayerP->TypeSet->width / 2};
+                                .x = Hw - _PlayerP->TypeSet->width / 2,
+                                .y = Hh - _PlayerP->TypeSet->height / 2};
             SDL_Point PCenterR = {Hh + (_PlayerP->TypeSet->height / 2), Hw + (_PlayerP->TypeSet->width / 2)};
             // SDL_RenderCopy(ARG,)
             Truth = SDL_RenderCopyEx(ARG->render,
@@ -97,33 +103,36 @@ int UpdateScreen(SEL_Window *ARG) {
         int CBNW = ARG->Map->cellsArg.massWidth, 
         CBNH = ARG->Map->cellsArg.massHeight;
 
-
         for (int sW = (_Px - Hw) / ARG->Map->cellsArg.width; sW < CBNW; sW++){
             for (int sH = (_Py - Hh) / ARG->Map->cellsArg.height; sH < CBNH; sH++) {
                 if (ARG->Map->cells[sW][sH].SizeLayots != 0) {
-                    for (int sprite = 0; sprite < ARG->Map->cells[sW][sH].layots[layot].LenSprites;sprite++) {
+                    if (ARG->Map->cells[sW][sH].layots[layot].LenSprites != 0) {
+                        //printf("Kuku {%d, %d, %d}\n", layot, sW, sH);
+                        for (int sprite = 0; sprite < ARG->Map->cells[sW][sH].layots[layot].LenSprites;sprite++) {
 
-                        Sprite *P_TO_S = &ARG->Map->cells[sW][sH].layots[layot].sprites[sprite];
-                        SDL_Rect Srect = {P_TO_S->arguments.pah.x - _PlayerP->arguments.pah.x + Hw,
-                                          P_TO_S->arguments.pah.y - _PlayerP->arguments.pah.y + Hh, 0, 0};
-                        
-                        SDL_Point SCenterR = {.x =P_TO_S->arguments.pah.x - _PlayerP->arguments.pah.x + Hw, 
-                                              P_TO_S->arguments.pah.y - _PlayerP->arguments.pah.y + Hh};
-
-                        
-                        if (Srect.x < ARG->WindowSettings.width & Srect.x > 0 & Srect.y < ARG->WindowSettings.height & Srect.y > 0) {
-                            int true = SDL_RenderCopyEx(ARG->render,
-                                            P_TO_S->typeSet->STexture,
-                                            NULL,
-                                            &Srect,
-                                            P_TO_S->arguments.rotation,
-                                            &SCenterR,
-                                            P_TO_S->arguments.reflaction
-                                            );
-                            if (!true) {
-                                printf("Error of showing sprite: %s, %d, %d, %d, %d;\n SDL Error: %s",
-                                       P_TO_S->name, Srect.x, Srect.y, SCenterR.x, SCenterR.y, SDL_GetError());
-                                       g_stop_signal_received = 1;
+                                Sprite *P_TO_S = &ARG->Map->cells[sW][sH].layots[layot].sprites[sprite];
+                                SDL_Rect Srect = {.x = P_TO_S->arguments.pah.x - _PlayerP->arguments.pah.x + Hw,
+                                                  .y = P_TO_S->arguments.pah.y - _PlayerP->arguments.pah.y + Hh,
+                                                  .h = P_TO_S->typeSet->height, 
+                                                  .w = P_TO_S->typeSet->width};
+                            
+                                SDL_Point SCenterR = {.x =P_TO_S->arguments.pah.x - _PlayerP->arguments.pah.x + Hw, 
+                                                      P_TO_S->arguments.pah.y - _PlayerP->arguments.pah.y + Hh};
+                                //printf("%d %d %d %d\n", Srect.x, Srect.y, _PlayerP->arguments.pah.x, _PlayerP->arguments.pah.y);
+                                if (Srect.x < ARG->WindowSettings.width & Srect.x > 0 & Srect.y < ARG->WindowSettings.height & Srect.y > 0) {
+                                    int true = SDL_RenderCopyEx(ARG->render,
+                                                    P_TO_S->typeSet->STexture,
+                                                    NULL,
+                                                    &Srect,
+                                                    P_TO_S->arguments.rotation,
+                                                    NULL,
+                                                    P_TO_S->arguments.reflaction
+                                                    );
+                                    if (true != 0) {
+                                        printf("Error of showing sprite: %s, %d, %d, %d, %d;\n SDL Error: %s",
+                                               P_TO_S->name, Srect.x, Srect.y, SCenterR.x, SCenterR.y, SDL_GetError());
+                                               g_stop_signal_received = 1;
+                                    }
                             }
                         }
                     }
@@ -131,6 +140,7 @@ int UpdateScreen(SEL_Window *ARG) {
             }
         }
     }
+    //printf("Ended Update\n");
     SDL_RenderPresent(ARG->render);
     return succes;
 }
@@ -215,7 +225,7 @@ int SEL_Start(int target_fps, SEL_Window *Window) {
 
 
         // Place to state functions
-
+        _PlayerKeybordManage(&Window->Map->player);
         UpdateScreen(Window);
         frame_count++;
         current_time_ns = get_monotonic_time_ns();

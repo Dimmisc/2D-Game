@@ -60,63 +60,86 @@ void QPlayers() {
 
 int _PlayerKeybordManage(Player *Player) {
     
-    static uint8_t M_U = 0, M_D = 0, M_L = 0, M_R = 0;
-    Uint8* keyboardState = SDL_GetKeyboardState(NULL);
+    uint8_t M_U = 0, M_D = 0, M_L = 0, M_R = 0, running = 0;
+    const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
     vector *_argument = &Player->arguments.VectorMotion;
     SDL_Rect *_position = &Player->arguments.pah;
+    SDL_Event Event;
 
+    SDL_Event event;
+        // Сначала обрабатываем все события - это обновит внутреннее состояние клавиатуры
+    while (SDL_PollEvent(&event)) {
+        if (event.type == SDL_QUIT) {
+            running = 0;
+        }
+        // Можно добавить обработку SDL_KEYDOWN/UP здесь для однократных действий
+    }
 
-    if (keyboardState[SDL_SCANCODE_W] || keyboardState[SDL_SCANCODE_UP]) {
+    if (keyboardState[SDL_SCANCODE_W] == 1) {
         M_U = 1;
         // Код для движения вперед
-        _argument->x += 10;
+        _argument->y -= 20;
     }
-    if (keyboardState[SDL_SCANCODE_S] || keyboardState[SDL_SCANCODE_DOWN]) {
+    if (keyboardState[SDL_SCANCODE_S] == 1) {
         M_D = 1;
         // Код для движения назад
-        _argument->x -= 10;
+        _argument->y += 20;
     }
-    if (keyboardState[SDL_SCANCODE_A] || keyboardState[SDL_SCANCODE_LEFT]) {
+    if (keyboardState[SDL_SCANCODE_A] == 1) {
         M_L = 1;
         // Код для движения влево
-        _argument->y -= 10;
-    }
-    if (keyboardState[SDL_SCANCODE_D] || keyboardState[SDL_SCANCODE_RIGHT]) {
+        _argument->x -= 20;
+        
+    }   
+    if (keyboardState[SDL_SCANCODE_D] == 1) {
         M_R = 1;
         // Код для движения вправо
-        _argument->y += 10;
+        _argument->x += 20;
     }
+    // while (SDL_PollEvent(&Event)) {
+    //     if (Event.type == SDL_KEYDOWN) {
+    //       if (Event.key.keysym.sym == SDLK_UP) {
+    //         printf("Up\n");
+    //       } else if (Event.key.keysym.sym == SDLK_DOWN) {
+    //         printf("Down\n");
+    //       } else if (Event.key.keysym.sym == SDLK_LEFT) {
+    //         printf("left\n");
+    //       } else if (Event.key.keysym.sym == SDLK_RIGHT) {
+    //         printf("Right\n");
+    //       }
+    //     }
+    //   }
     // Player mowing
 
     _position->x += _argument->x;
     _position->y += _argument->y;
-    
-
-
+    printf("%d %d %d %d \n", _argument->x, _argument->y, _position->x, _position->y);
     // Player Braking
 
-    if (_argument->x !=0 && M_L == 0 && M_R == 0){
-        if (_argument->x > 0) {
-            _argument->x -= (int) round(_argument->x * 0.4) + 1;
+    if (_argument->y !=0 && (M_U == 0 || M_D == 0)){
+        if (_argument->y > 0) {
+            _argument->y -= (int) round(_argument->y * 0.45) + 1;
         }
         else {
-            _argument->x -= (int) round(_argument->x * 0.4) - 1;
+            _argument->y -= (int) round(_argument->y * 0.45) - 1;
         }
     }
-    if (_argument->y !=0 && M_U == 0 && M_D == 0){
-        if (_argument->y > 0) {
-            _argument->x -= (int) round(_argument->x * 0.1) + 1;
+    if (_argument->x !=0 && (M_L == 0 || M_R == 0)){
+        if (_argument->x > 0) {
+            _argument->x -= (int) round(_argument->x * 0.45) + 1;
         }
         else {
-            _argument->x -= (int) round(_argument->x * 0.1) - 1;
+            _argument->x -= (int) round(_argument->x * 0.45) - 1;
         }
     }
     return 0;
 }
 
 
+
+
 int _PlayerHandler(AreaMap *MAP){
-    if (_PlayerKeybordManage(&MAP->player) != NULL){
+    if (_PlayerKeybordManage(&MAP->player) != 0){
         printf("Error: Managing keybord of Player!");
     }
     return 0;

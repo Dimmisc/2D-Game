@@ -19,7 +19,7 @@ const _Type TYPESET[4];
 int _TYPES_COUNT = 4;
 
 
-_Type SpriteTYPES[2] = {{"/source/Area/sprites/Grass.png", 50, 50, {0, 0}, {1}}};
+_Type SpriteTYPES[2] = {{"source/Area/sprites/Grass.png", .height = 50, .width = 50, .centerOffset = {1, 1}}};
 int PST = 1;
 type *SpriteTypes = NULL;
 
@@ -28,8 +28,17 @@ int InitSprites(SDL_Renderer *RENDER, SDL_Surface *SURFACE) {
     SpriteTypes = calloc(PST, sizeof(type));
     for (int i = 0;i<PST;i++){
         SURFACE = IMG_Load(SpriteTYPES[i].path);
+        if (!SURFACE){
+            printf("Error: loading Surface. %s\n", SDL_GetError());
+        }
         SpriteTypes[i].STexture = SDL_CreateTextureFromSurface(RENDER, SURFACE);
-        SpriteTypes[i].height = SpriteTYPES[i].height, SpriteTypes[i].width = SpriteTYPES[i].width, SpriteTypes[i].CenterOffset = SpriteTYPES[i].centerOffset;
+        if (!SpriteTypes[i].STexture){
+            printf("Error: Creating Texture Sprite. %s\n", SDL_GetError());
+        }
+        SpriteTypes[i].height = SpriteTYPES[i].height, 
+        SpriteTypes[i].width = SpriteTYPES[i].width, 
+        SpriteTypes[i].CenterOffset = SpriteTYPES[i].centerOffset;
+        printf("%d %d:: %d %d\n", SpriteTYPES[i].width, SpriteTypes[i].width, SpriteTYPES[i].height, SpriteTypes[i].height);
         SpriteTypes[i].type = i;
         SDL_FreeSurface(SURFACE);
     }
