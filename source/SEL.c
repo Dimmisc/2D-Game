@@ -72,7 +72,7 @@ int UpdateScreen(SEL_Window *ARG) {
         screenupdate++;
     }
     screenupdate++;
-    uint8_t _PlayerLayot = ARG->Map->player.layot;
+    uint8_t _PlayerLayot = ARG->Map->player.arguments.layot;
     uint8_t _Len_layot = ARG->Map->cellsArg.layots;
     Player * _PlayerP = &ARG->Map->player;
     uint8_t Truth = 0;
@@ -98,46 +98,51 @@ int UpdateScreen(SEL_Window *ARG) {
             if (Truth != 0) {
                 printf("Error: rendering Plyer texture(%s):\n", SDL_GetError());
             }
+            printf("Player Rendered: %s; %d;\n", _PlayerP->name, layot);
         }
 
         int CBNW = ARG->Map->cellsArg.massWidth, 
         CBNH = ARG->Map->cellsArg.massHeight;
+        if ((_Px - Hw) / ARG->Map->cellsArg.width >= 0 && (_Py - Hh) / ARG->Map->cellsArg.height >= 0) {
+            for (int sW = (_Px - Hw) / ARG->Map->cellsArg.width; sW < CBNW; sW++){
+                for (int sH = (_Py - Hh) / ARG->Map->cellsArg.height; sH < CBNH; sH++) {
+                    if (ARG->Map->cells[sW][sH].SizeLayots != 0) {
+                        if (ARG->Map->cells[sW][sH].layots[layot].LenSprites != 0) {
+                            //printf("Kuku {%d, %d, %d}\n", layot, sW, sH);
+                            for (int sprite = 0; sprite < ARG->Map->cells[sW][sH].layots[layot].LenSprites;sprite++) {
 
-        for (int sW = (_Px - Hw) / ARG->Map->cellsArg.width; sW < CBNW; sW++){
-            for (int sH = (_Py - Hh) / ARG->Map->cellsArg.height; sH < CBNH; sH++) {
-                if (ARG->Map->cells[sW][sH].SizeLayots != 0) {
-                    if (ARG->Map->cells[sW][sH].layots[layot].LenSprites != 0) {
-                        //printf("Kuku {%d, %d, %d}\n", layot, sW, sH);
-                        for (int sprite = 0; sprite < ARG->Map->cells[sW][sH].layots[layot].LenSprites;sprite++) {
-
-                                Sprite *P_TO_S = &ARG->Map->cells[sW][sH].layots[layot].sprites[sprite];
-                                SDL_Rect Srect = {.x = P_TO_S->arguments.pah.x - _PlayerP->arguments.pah.x + Hw,
-                                                  .y = P_TO_S->arguments.pah.y - _PlayerP->arguments.pah.y + Hh,
-                                                  .h = P_TO_S->typeSet->height, 
-                                                  .w = P_TO_S->typeSet->width};
-                            
-                                SDL_Point SCenterR = {.x =P_TO_S->arguments.pah.x - _PlayerP->arguments.pah.x + Hw, 
-                                                      P_TO_S->arguments.pah.y - _PlayerP->arguments.pah.y + Hh};
-                                //printf("%d %d %d %d\n", Srect.x, Srect.y, _PlayerP->arguments.pah.x, _PlayerP->arguments.pah.y);
-                                if (Srect.x < ARG->WindowSettings.width & Srect.x > 0 & Srect.y < ARG->WindowSettings.height & Srect.y > 0) {
-                                    int true = SDL_RenderCopyEx(ARG->render,
-                                                    P_TO_S->typeSet->STexture,
-                                                    NULL,
-                                                    &Srect,
-                                                    P_TO_S->arguments.rotation,
-                                                    NULL,
-                                                    P_TO_S->arguments.reflaction
-                                                    );
-                                    if (true != 0) {
-                                        printf("Error of showing sprite: %s, %d, %d, %d, %d;\n SDL Error: %s",
-                                               P_TO_S->name, Srect.x, Srect.y, SCenterR.x, SCenterR.y, SDL_GetError());
-                                               g_stop_signal_received = 1;
-                                    }
+                                    Sprite *P_TO_S = &ARG->Map->cells[sW][sH].layots[layot].sprites[sprite];
+                                    SDL_Rect Srect = {.x = P_TO_S->arguments.pah.x - _PlayerP->arguments.pah.x + Hw,
+                                                      .y = P_TO_S->arguments.pah.y - _PlayerP->arguments.pah.y + Hh,
+                                                      .h = P_TO_S->typeSet->height, 
+                                                      .w = P_TO_S->typeSet->width};
+                                    
+                                    SDL_Point SCenterR = {.x =P_TO_S->arguments.pah.x - _PlayerP->arguments.pah.x + Hw, 
+                                                          P_TO_S->arguments.pah.y - _PlayerP->arguments.pah.y + Hh};
+                                    printf("%d %d %d %d %d\n", Srect.x, Srect.y, _PlayerP->arguments.pah.x, _PlayerP->arguments.pah.y, layot);
+                                    if (Srect.x < ARG->WindowSettings.width & Srect.x > 0 & Srect.y < ARG->WindowSettings.height & Srect.y > 0) {
+                                        int true = SDL_RenderCopyEx(ARG->render,
+                                                        P_TO_S->typeSet->STexture,
+                                                        NULL,
+                                                        &Srect,
+                                                        P_TO_S->arguments.rotation,
+                                                        NULL,
+                                                        P_TO_S->arguments.reflaction
+                                                        );
+                                        if (true != 0) {
+                                            printf("Error of showing sprite: %s, %d, %d, %d, %d;\n SDL Error: %s",
+                                                   P_TO_S->name, Srect.x, Srect.y, SCenterR.x, SCenterR.y, SDL_GetError());
+                                                   g_stop_signal_received = 1;
+                                        }
+                                }
                             }
                         }
                     }
                 }
             }
+        }
+        else {
+            printf("Flag going out\n");
         }
     }
     //printf("Ended Update\n");

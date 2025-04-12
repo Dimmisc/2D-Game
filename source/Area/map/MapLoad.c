@@ -7,7 +7,6 @@
 #include "../Area.h"
 
 
-
 int loadParametresSprite(FILE *fp, ParametresSprite *params) {
     int reflaction_int;
     unsigned int layot_uint;
@@ -24,6 +23,7 @@ int loadParametresSprite(FILE *fp, ParametresSprite *params) {
 
     params->reflaction = (SDL_RendererFlip)reflaction_int; // Cast back to enum
     params->layot = (uint8_t)layot_uint; // Cast back to uint8_t
+    printf("layot: %d; %u; \n", layot_uint, params->layot);
     fgetc(fp); // Consume trailing newline
     return 0;
 }
